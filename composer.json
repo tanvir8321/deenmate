@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "deenmate/deenmate",
+    "name": "tanvir8321/deenmate",
     "type": "project",
     "description": "Your Virtual Muslim Self - a free, open-source web app for daily Islamic routines",
     "keywords": ["islam", "muslim", "prayer", "quran", "adhkar", "laravel", "inertia", "react"],

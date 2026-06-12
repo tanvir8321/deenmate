@@ -13,7 +13,7 @@ We release patches for security vulnerabilities for the following versions:
 If you discover a security vulnerability, please report it privately:
 
 1. **Do NOT** create a public GitHub issue
-2. Email us at security@deenmate.org with:
+2. Email us at security@YOUR_DOMAIN with:
    - Description of the vulnerability
    - Steps to reproduce
    - Potential impact

@@ -1,6 +1,6 @@
 # DeenMate — Your Virtual Muslim Self
 
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/deenmate/deenmate)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/tanvir8321/deenmate)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 [![PHP](https://img.shields.io/badge/php-8.3-777bb4)](https://php.net)
 [![Laravel](https://img.shields.io/badge/laravel-13-f9322c)](https://laravel.com)
@@ -41,7 +41,7 @@ A web app that acts as a "virtual copy" of a practicing Muslim — generating da
 ### Local (no Docker)
 
 ```bash
-git clone https://github.com/deenmate/deenmate.git
+git clone https://github.com/tanvir8321/deenmate.git
 cd deenmate
 composer install
 pnpm install

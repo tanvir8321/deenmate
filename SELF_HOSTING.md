@@ -12,7 +12,7 @@ DeenMate is AGPL-3.0 licensed. You can run your own instance on any VPS with Doc
 ## Quick Start
 
 ```bash
-git clone https://github.com/tellicode/deenmate.git
+git clone https://github.com/tanvir8321/deenmate.git
 cd deenmate
 
 # Copy and configure environment

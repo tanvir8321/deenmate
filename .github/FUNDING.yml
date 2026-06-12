@@ -1,4 +1,4 @@
-github: [tellicode]
+github: [tanvir8321]
 open_collective: deenmate
 patreon: deenmate
 ko_fi: deenmate
@@ -6,8 +6,8 @@ community_bridge: deenmate
 
 custom:
   - label: "One-time Donation (Stripe)"
-    url: "https://donate.deenmate.org"
+    url: "https://YOUR_DOMAIN/donate"
   - label: "bKash (Bangladesh)"
-    url: "https://deenmate.org/bkash"
+    url: "https://YOUR_DOMAIN/bkash"
   - label: "Nagad (Bangladesh)"
-    url: "https://deenmate.org/nagad"
+    url: "https://YOUR_DOMAIN/nagad"
