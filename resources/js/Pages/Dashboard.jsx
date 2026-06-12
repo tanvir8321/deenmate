@@ -3,6 +3,7 @@ import PrayerTimesBar from '@/Components/PrayerTimesBar';
 import QuickAddTodo from '@/Components/QuickAddTodo';
 import TodayChecklist from '@/Components/TodayChecklist';
 import StreakHeatmap from '@/Components/StreakHeatmap';
+import SalahActivityCard from '@/Components/SalahActivityCard';
 import NextPrayerCountdown from '@/Components/NextPrayerCountdown';
 import KpiCard from '@/Components/KpiCard';
 import DashboardHeader from '@/Components/DashboardHeader';
@@ -20,6 +21,10 @@ export default function Dashboard({
     goals,
     heatmapDates,
     hasLocation,
+    salahHeatmap,
+    salahBreakdown,
+    salahStreak,
+    qadaSummary,
 }) {
     const { t } = useTranslation();
 
@@ -107,6 +112,13 @@ export default function Dashboard({
                                 <StreakHeatmap dates={heatmapDates} />
                             </div>
                         </div>
+
+                        <SalahActivityCard
+                            heatmap={salahHeatmap}
+                            breakdown={salahBreakdown}
+                            streak={salahStreak}
+                            qadaSummary={qadaSummary}
+                        />
 
                         {goals && goals.length > 0 && (
                             <div className="card bg-base-100 shadow">

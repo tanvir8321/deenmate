@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $date
  * @property string $prayer
  * @property string $status
+ * @property int|null $c
  */
 #[Fillable(['user_id', 'date', 'prayer', 'status'])]
 class SalahLog extends Model

@@ -453,6 +453,44 @@ Acceptance (all green):
 
 Out of scope (explicit): no new service classes; no migrations; no new tests (UI bugs verified manually via PR checklist); no new dependencies; no Library page redesign.
 
+### Phase 12 — Salah Activity Analytics + Qada Counter
+**Status: shipped (June 2026).** Promote Salah from a daily check-in page to a first-class analytics module on the dashboard and its own page, with a running qada owed/repaid counter.
+
+Bugs fixed:
+1. **Salah log was invisible to the dashboard.** The 90-day "Activity" heatmap tracked `task_instances` only — a `salah_logs` row never lit up the widget. Salah is now a first-class widget.
+2. **Cache-busting gap.** `LogSalah` was busting only `salah_streak:*` and leaving `dashboard_stats:*` / `weekly_stats:*` / `monthly_stats:*` / `yearly_stats:*` stale. Logging a salah now busts both `SalahAnalyticsService` and `DashboardStatsService` keys, so the dashboard widget and the Reports page stay in sync.
+3. **Qada counter was a fasting-only afterthought.** `qada_counters` already had the PLAN §4 schema but was only fed by `LogFasting`. Per-prayer salah qada owed/repaid is now tracked too.
+
+Tasks:
+1. `qada_counters` migration: add `unique(user_id, kind)` constraint (the original table was missing it).
+2. New `App\Services\SalahAnalyticsService` — single source of truth for all salah analytics. Public methods: `breakdown`, `heatmap(days, today)`, `currentStreak`, `perPrayerConsistency`, `monthlyBreakdown`, `bust(user, date)`. Cached per (user, scope, dateRange) in Redis.
+3. New `App\Actions\RepayQada` — invokable, idempotent, caps `repaid` at `owed`. Validates `kind` is one of `salah_fajr|salah_dhuhr|salah_asr|salah_maghrib|salah_isha|fast`. Count 1-10 per click.
+4. New `App\Actions\RecomputeQadaCounters` — counts `salah_logs.status='missed'` per prayer + `fasting_logs.status='broken'` to populate `qada_counters.owed`. `repaid` is preserved across runs. Idempotent. Called by `day:rollover`.
+5. `LogSalah` now busts `DashboardStatsService` + `SalahAnalyticsService` caches after every write, so the new value is visible on the next request.
+6. `DashboardController` exposes 4 new Inertia props: `salahHeatmap` (90 cells, 0-5 intensity), `salahBreakdown` (4 counts), `salahStreak` (consecutive full days), `qadaSummary` (owed/repaid/outstanding + per-prayer + fast).
+7. `SalahController` exposes the same plus 6-month `monthlyBreakdown`, 30-day `perPrayer` consistency table, and a new `repayQada` POST endpoint (route `salah.repay-qada`).
+8. `day:rollover` calls `RecomputeQadaCounters` per user, after streak updates, so qada totals stay in sync.
+9. `resources/js/Components/SalahActivityCard.jsx` — new dashboard right-rail card (sits below the routine "Activity" card): title + streak badge, 4 mini-stats (Jamaat/Alone/Qada/Missed, 90-day totals), 90-cell 5-level intensity heatmap, qada outstanding line, "View details" link to `/salah`.
+10. `resources/js/Components/QadaCounter.jsx` — compact widget on the dashboard card + full per-prayer view on the Salah page with "Repaid +1" buttons posting to `salah.repay-qada` optimistically.
+11. `resources/js/Components/SalahMonthlyChart.jsx` — div-based stacked bar chart (no recharts dep) for the last 6 months; reuses the same visual vocabulary as the Reports page.
+12. `resources/js/Pages/Salah/Index.jsx` — adds 4 new sections below the existing daily check-in: 90-day heatmap, per-prayer consistency table, 6-month chart, full QadaCounter widget.
+13. i18n: 22 new keys × `en` + `bn` locales. Other locales fall back to English for the new keys (matches existing pattern; full translations in a Phase 6 i18n sweep).
+
+Acceptance (all green):
+- [x] `qada_counters` has `unique(user_id, kind)`; migration runs clean and rolls back.
+- [x] `SalahAnalyticsService` has 10 unit tests + 1 timezone fixture covering Asia/Dhaka, Europe/London, America/New_York.
+- [x] Dashboard right rail shows the `Salah activity` card with 4 mini-stats, 90-cell heatmap, current streak, and qada summary.
+- [x] `/salah` shows daily check-in (unchanged) + 90-day heatmap + per-prayer table + 6-month chart + full QadaCounter widget.
+- [x] Marking a salah on the Salah page busts the dashboard and Salah-page analytics caches (visible on next reload).
+- [x] Repaying a qada decrements the outstanding counter; rolls back on 4xx/5xx.
+- [x] `day:rollover` re-runs `RecomputeQadaCounters`; idempotent on re-run.
+- [x] `pint`, `phpstan` (level 6), `eslint`, `pnpm build` clean.
+- [x] 170 tests pass (was 134; +36 new tests, +171 assertions).
+- [x] RTL verified via logical properties (`ms-*`, `me-*`, `text-start/end`) — no `ml-*`/`mr-*` introduced.
+- [x] No new third-party deps; divs reused for the chart.
+
+Out of scope (explicit): friday/Jumu'ah checklist, prayer-quality improvements, madhab-specific fard/witir split, location-based qibla, full i18n translation for the new keys in `ar`/`ur`/`tr`/`id` (will be done in the Phase 6 i18n sweep).
+
 ---
 
 ## §8 — Open Source Strategy

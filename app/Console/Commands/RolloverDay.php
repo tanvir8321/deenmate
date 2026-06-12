@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Actions\MarkMissedTasks;
+use App\Actions\RecomputeQadaCounters;
 use App\Models\User;
 use App\Services\ReminderScheduler;
 use App\Services\StreakService;
@@ -21,8 +22,12 @@ class RolloverDay extends Command
 
     protected $description = 'Mark missed tasks and refresh streaks for timezones that just passed midnight';
 
-    public function handle(MarkMissedTasks $markMissed, StreakService $streaks, ReminderScheduler $scheduler): int
-    {
+    public function handle(
+        MarkMissedTasks $markMissed,
+        StreakService $streaks,
+        ReminderScheduler $scheduler,
+        RecomputeQadaCounters $recomputeQada,
+    ): int {
         $nowUtc = CarbonImmutable::now('UTC');
         $only = $this->option('tz');
 
@@ -45,7 +50,7 @@ class RolloverDay extends Command
 
             User::query()
                 ->where('timezone', $tz)
-                ->chunkById(200, function ($users) use ($markMissed, $streaks, $scheduler, $yesterday, $today, &$processed) {
+                ->chunkById(200, function ($users) use ($markMissed, $streaks, $scheduler, $recomputeQada, $yesterday, $today, &$processed) {
                     foreach ($users as $user) {
                         $missed = $markMissed($user, $yesterday);
 
@@ -53,6 +58,9 @@ class RolloverDay extends Command
                         TodayResolver::bust($user->id, $today->toDateString());
                         StreakService::bust($user->id, $yesterday->toDateString());
                         StreakService::bust($user->id, $today->toDateString());
+
+                        // Recompute qada counters from raw logs.
+                        $recomputeQada($user, $today);
 
                         // Warm today's streak cache.
                         $streaks->global($user, $today);

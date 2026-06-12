@@ -4,11 +4,17 @@ namespace App\Actions;
 
 use App\Models\SalahLog;
 use App\Models\User;
+use App\Services\DashboardStatsService;
+use App\Services\SalahAnalyticsService;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Cache;
 
 class LogSalah
 {
+    public function __construct(
+        private readonly SalahAnalyticsService $analytics,
+    ) {}
+
     public function __invoke(
         User $user,
         CarbonImmutable $date,
@@ -31,6 +37,11 @@ class LogSalah
         if (in_array($status, ['jamaat', 'alone'])) {
             $this->bustSalahStreakCache($user->id, $date->toDateString());
         }
+
+        // Bust analytics + dashboard caches so the new log is visible
+        // immediately on the dashboard widget, Salah page, and reports.
+        $this->analytics::bust($user->id, $date);
+        DashboardStatsService::bust($user->id, $date->toDateString());
 
         return $log;
     }

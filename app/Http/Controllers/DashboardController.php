@@ -6,6 +6,7 @@ use App\Services\DashboardStatsService;
 use App\Services\GoalProgressService;
 use App\Services\HijriCalendarService;
 use App\Services\PrayerTimeService;
+use App\Services\SalahAnalyticsService;
 use App\Services\TodayResolver;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
@@ -21,6 +22,7 @@ class DashboardController extends Controller
         private readonly TodayResolver $today,
         private readonly DashboardStatsService $stats,
         private readonly GoalProgressService $goalProgress,
+        private readonly SalahAnalyticsService $salahAnalytics,
     ) {}
 
     public function index(Request $request): Response
@@ -73,6 +75,35 @@ class DashboardController extends Controller
             ->map(fn ($d) => Carbon::parse($d)->toDateString())
             ->all();
 
+        $salahHeatmap = $this->salahAnalytics->heatmap($user, 90, $today);
+        $salahBreakdown = $this->salahAnalytics->breakdown(
+            $user,
+            $today->subDays(89),
+            $today,
+        );
+        $salahStreak = $this->salahAnalytics->currentStreak($user, $today);
+
+        $qadaCounters = $user->qadaCounters()->get()->keyBy('kind');
+        $byPrayer = [];
+        foreach (SalahAnalyticsService::PRAYERS as $p) {
+            $row = $qadaCounters->get('salah_'.$p);
+            $byPrayer[$p] = [
+                'owed' => (int) ($row->owed ?? 0),
+                'repaid' => (int) ($row->repaid ?? 0),
+            ];
+        }
+        $fastRow = $qadaCounters->get('fast');
+        $qadaSummary = [
+            'owed' => (int) $qadaCounters->sum('owed'),
+            'repaid' => (int) $qadaCounters->sum('repaid'),
+            'outstanding' => max(0, (int) $qadaCounters->sum('owed') - (int) $qadaCounters->sum('repaid')),
+            'by_prayer' => $byPrayer,
+            'fast' => [
+                'owed' => (int) ($fastRow->owed ?? 0),
+                'repaid' => (int) ($fastRow->repaid ?? 0),
+            ],
+        ];
+
         $nextPrayer = $prayerTimes !== null
             ? $this->prayerTimes->next($user, $today)
             : null;
@@ -87,6 +118,10 @@ class DashboardController extends Controller
             'stats' => $statValues,
             'goals' => $goals->values(),
             'heatmapDates' => array_values($heatmapDates),
+            'salahHeatmap' => $salahHeatmap,
+            'salahBreakdown' => $salahBreakdown,
+            'salahStreak' => $salahStreak,
+            'qadaSummary' => $qadaSummary,
             'nextPrayer' => $nextPrayer !== null
                 ? [
                     'name' => $nextPrayer['name'],

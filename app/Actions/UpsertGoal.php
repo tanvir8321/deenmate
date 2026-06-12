@@ -25,6 +25,11 @@ class UpsertGoal
             $goal = new Goal(['user_id' => $user->id]);
         }
 
+        $endsOn = $data['ends_on'] ?? null;
+        if ($endsOn === '' || $endsOn === 'null') {
+            $endsOn = null;
+        }
+
         $goal->fill([
             'title' => $data['title'],
             'period' => $data['period'],
@@ -34,7 +39,7 @@ class UpsertGoal
             'metric_source' => $data['metric_source'],
             'linked_routine_ids' => $data['linked_routine_ids'] ?? null,
             'starts_on' => $data['starts_on'],
-            'ends_on' => $data['ends_on'] ?? null,
+            'ends_on' => $endsOn,
         ])->save();
 
         $today = CarbonImmutable::now($user->timezone)->startOfDay();

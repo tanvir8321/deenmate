@@ -6,6 +6,7 @@ use App\Http\Controllers\DhikrSessionController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FastingController;
+use App\Http\Controllers\GoalController;
 use App\Http\Controllers\HifzController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
@@ -42,6 +43,8 @@ Route::get('/salah', [SalahController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('salah.index');
 Route::post('/salah', [SalahController::class, 'store'])
     ->middleware(['auth', 'verified'])->name('salah.store');
+Route::post('/salah/repay-qada', [SalahController::class, 'repayQada'])
+    ->middleware(['auth', 'verified'])->name('salah.repay-qada');
 
 Route::get('/zakat', [ZakatController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('zakat.index');
@@ -82,6 +85,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/settings', [SettingsController::class, 'update'])->name('settings.update');
 
     Route::resource('routines', RoutineController::class)->except('show');
+
+    Route::resource('goals', GoalController::class)->only(['index', 'store', 'update', 'destroy']);
 
     Route::post('/tasks/complete', [TaskInstanceController::class, 'complete'])->name('tasks.complete');
     Route::post('/tasks/skip', [TaskInstanceController::class, 'skip'])->name('tasks.skip');

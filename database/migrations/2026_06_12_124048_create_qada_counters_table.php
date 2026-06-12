@@ -15,6 +15,7 @@ return new class extends Migration
             $table->unsignedInteger('owed')->default(0);
             $table->unsignedInteger('repaid')->default(0);
             $table->timestamps();
+            $table->unique(['user_id', 'kind']);
         });
     }
 
