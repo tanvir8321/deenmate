@@ -13,10 +13,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 #[Fillable([
-    'name', 'email', 'password',
-    'timezone', 'locale', 'geohash', 'lat', 'lng',
+    'name', 'display_name', 'email', 'password',
+    'timezone', 'locale', 'theme', 'geohash', 'lat', 'lng',
     'calc_method', 'asr_method', 'high_lat_rule', 'hijri_offset',
-    'quiet_start', 'quiet_end', 'onboarded_at',
+    'quiet_start', 'quiet_end', 'onboarded_at', 'notification_preferences',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail
@@ -27,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $attributes = [
         'timezone' => 'UTC',
         'locale' => 'en',
+        'theme' => 'deenmate',
         'calc_method' => 'karachi',
         'asr_method' => 'hanafi',
         'high_lat_rule' => 'none',
@@ -42,6 +43,22 @@ class User extends Authenticatable implements MustVerifyEmail
             'lng' => 'float',
             'hijri_offset' => 'integer',
             'onboarded_at' => 'datetime',
+            'notification_preferences' => 'array',
+        ];
+    }
+
+    /**
+     * @return array<string, bool>
+     */
+    public static function defaultNotificationPreferences(): array
+    {
+        return [
+            'salah_reminder' => true,
+            'morning_briefing' => true,
+            'evening_briefing' => false,
+            'adhkar_reminder' => true,
+            'fasting_reminder' => true,
+            'weekly_report' => false,
         ];
     }
 
