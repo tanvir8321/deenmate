@@ -163,7 +163,7 @@ export default function Welcome({ auth }) {
                                 </svg>
                             </Link>
                             <a
-                                href="https://github.com/tellicode/deenmate"
+                                href="https://github.com/tanvir8321/deenmate"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-8 py-4 text-base font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900 dark:border-zinc-700 dark:text-gray-300 dark:hover:border-zinc-600 dark:hover:text-white"
@@ -256,7 +256,7 @@ export default function Welcome({ auth }) {
                                 {t('Use Hosted Free')}
                             </Link>
                             <a
-                                href="https://github.com/tellicode/deenmate/blob/main/SELF_HOSTING.md"
+                                href="https://github.com/tanvir8321/deenmate/blob/main/SELF_HOSTING.md"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="rounded-xl border border-gray-300 px-8 py-4 text-base font-medium text-gray-700 transition hover:border-gray-400 dark:border-zinc-700 dark:text-gray-300 dark:hover:border-zinc-600"
@@ -282,7 +282,7 @@ export default function Welcome({ auth }) {
                             </p>
                             <div className="flex items-center gap-6 text-sm text-gray-500">
                                 <a
-                                    href="https://github.com/tellicode/deenmate"
+                                    href="https://github.com/tanvir8321/deenmate"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="transition hover:text-gray-700 dark:hover:text-gray-300"
@@ -290,7 +290,7 @@ export default function Welcome({ auth }) {
                                     GitHub
                                 </a>
                                 <a
-                                    href="https://github.com/tellicode/deenmate/blob/main/CONTRIBUTING.md"
+                                    href="https://github.com/tanvir8321/deenmate/blob/main/CONTRIBUTING.md"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="transition hover:text-gray-700 dark:hover:text-gray-300"

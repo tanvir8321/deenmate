@@ -339,7 +339,7 @@ Acceptance: CI publishes image on tag; load test passes; export produces complet
 ## §8 — Open Source Strategy
 
 - **License: AGPL-3.0.** Anyone can use, self-host, and modify freely; anyone running a modified hosted version must share their changes. This protects the project from a closed-source commercial fork (e.g., someone rebranding it with ads) while keeping it 100% free. (If maximum permissiveness matters more to you than fork-protection, MIT is the alternative — decide before first public commit.)
-- **Governance:** you (TelliCode) as maintainer; CONTRIBUTING.md defines review rules. Religious content changes require a cited source (hadith reference, scholarly work) and a second reviewer.
+- **Governance:** you (Tanvir Ahammed) as maintainer; CONTRIBUTING.md defines review rules. Religious content changes require a cited source (hadith reference, scholarly work) and a second reviewer.
 - **Funding channels:** GitHub Sponsors + Open Collective (transparent budget — strong trust signal) + Stripe one-time link + bKash/Nagad for BD donors. Frame: *sadaqah jariyah — every user's worship assisted by this tool carries ongoing reward for its supporters.* Publish hosting costs openly; community funds the hosted instance.
 - **Community building:** launch on GitHub + r/islam, MuslimTechNetwork, BD dev communities; "good first issue" labels (translations are perfect first contributions); pre-Ramadan 1448 (~Feb 2027) is the launch moment.
 - **Trust levers:** open code = auditable privacy; no trackers by default; scholar-cited content; public Open Collective ledger.
