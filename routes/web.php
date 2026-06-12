@@ -7,6 +7,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FastingController;
 use App\Http\Controllers\HifzController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\QuranController;
@@ -56,6 +57,8 @@ Route::post('/hifz/review', [HifzController::class, 'review'])
 
 Route::get('/adhkar', [AdhkarController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('adhkar.index');
+Route::get('/library', [LibraryController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('library.index');
 
 Route::get('/quran', [QuranController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('quran.index');

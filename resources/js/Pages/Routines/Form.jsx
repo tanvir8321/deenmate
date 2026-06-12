@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 const WEEKDAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -33,8 +34,8 @@ const FREQS = [
     ['interval', 'Every N days'],
 ];
 
-const selectClasses =
-    'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500';
+const selectClasses = 'select select-bordered mt-1 w-full';
+const inputClasses = 'mt-1 w-full';
 
 export default function Form({ routine }) {
     const { t } = useTranslation();
@@ -57,7 +58,6 @@ export default function Form({ routine }) {
     });
 
     const setRule = (patch) => setData('recurrence', { ...data.recurrence, ...patch });
-
     const setFreq = (freq) => setData('recurrence', { freq });
 
     const toggleArrayValue = (key, value) => {
@@ -90,21 +90,21 @@ export default function Form({ routine }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold text-base-content">
                     {editing ? t('Edit routine') : t('New routine')}
                 </h2>
             }
         >
             <Head title={editing ? t('Edit routine') : t('New routine')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-                    <form onSubmit={submit} className="space-y-6 rounded-lg bg-white p-6 shadow">
+            <Container className="py-2">
+                <form onSubmit={submit} className="card bg-base-100 shadow">
+                    <div className="card-body space-y-6 p-4 sm:p-6">
                         <div>
                             <InputLabel htmlFor="title" value={t('Title')} />
                             <TextInput
                                 id="title"
-                                className="mt-1 block w-full"
+                                className={`${inputClasses} block w-full`}
                                 value={data.title}
                                 onChange={(e) => setData('title', e.target.value)}
                                 placeholder={t('e.g. Read Surah Mulk')}
@@ -129,7 +129,7 @@ export default function Form({ routine }) {
                         </div>
 
                         <fieldset className="space-y-3">
-                            <legend className="text-sm font-medium text-gray-700">{t('Repeats')}</legend>
+                            <legend className="text-sm font-medium text-base-content">{t('Repeats')}</legend>
                             <select
                                 className={selectClasses}
                                 value={freq}
@@ -150,10 +150,8 @@ export default function Form({ routine }) {
                                             key={day}
                                             type="button"
                                             onClick={() => toggleArrayValue('days', day)}
-                                            className={`rounded-full px-3 py-1 text-sm capitalize ${
-                                                (data.recurrence.days ?? []).includes(day)
-                                                    ? 'bg-emerald-600 text-white'
-                                                    : 'bg-gray-100 text-gray-600'
+                                            className={`btn btn-sm capitalize ${
+                                                (data.recurrence.days ?? []).includes(day) ? 'btn-primary' : 'btn-outline'
                                             }`}
                                         >
                                             {t(day)}
@@ -171,7 +169,7 @@ export default function Form({ routine }) {
                                         type="number"
                                         min="1"
                                         max="31"
-                                        className="mt-1 block w-32"
+                                        className={`${inputClasses} w-32`}
                                         value={data.recurrence.day_of_month ?? ''}
                                         onChange={(e) => setRule({ day_of_month: Number(e.target.value) })}
                                     />
@@ -188,7 +186,7 @@ export default function Form({ routine }) {
                                             type="number"
                                             min="1"
                                             max="12"
-                                            className="mt-1 block w-24"
+                                            className={`${inputClasses} w-24`}
                                             value={data.recurrence.month ?? ''}
                                             onChange={(e) => setRule({ month: Number(e.target.value) })}
                                         />
@@ -201,7 +199,7 @@ export default function Form({ routine }) {
                                             type="number"
                                             min="1"
                                             max="31"
-                                            className="mt-1 block w-24"
+                                            className={`${inputClasses} w-24`}
                                             value={data.recurrence.day ?? ''}
                                             onChange={(e) => setRule({ day: Number(e.target.value) })}
                                         />
@@ -219,10 +217,8 @@ export default function Form({ routine }) {
                                                 key={day}
                                                 type="button"
                                                 onClick={() => toggleArrayValue('hijri_days', day)}
-                                                className={`rounded p-1 text-xs ${
-                                                    (data.recurrence.hijri_days ?? []).includes(day)
-                                                        ? 'bg-emerald-600 text-white'
-                                                        : 'bg-gray-100 text-gray-600'
+                                                className={`btn btn-xs ${
+                                                    (data.recurrence.hijri_days ?? []).includes(day) ? 'btn-primary' : 'btn-outline'
                                                 }`}
                                             >
                                                 {day}
@@ -259,7 +255,7 @@ export default function Form({ routine }) {
                                             type="number"
                                             min="1"
                                             max="30"
-                                            className="mt-1 block w-24"
+                                            className={`${inputClasses} w-24`}
                                             value={data.recurrence.hijri_day ?? ''}
                                             onChange={(e) =>
                                                 setRule({
@@ -279,7 +275,7 @@ export default function Form({ routine }) {
                                         type="number"
                                         min="1"
                                         max="365"
-                                        className="mt-1 block w-24"
+                                        className={`${inputClasses} w-24`}
                                         value={data.recurrence.every_days ?? ''}
                                         onChange={(e) => setRule({ every_days: Number(e.target.value) })}
                                     />
@@ -289,21 +285,21 @@ export default function Form({ routine }) {
                         </fieldset>
 
                         <fieldset className="space-y-3">
-                            <legend className="text-sm font-medium text-gray-700">{t('Time')}</legend>
-                            <div className="flex gap-4">
+                            <legend className="text-sm font-medium text-base-content">{t('Time')}</legend>
+                            <div className="flex flex-wrap gap-4">
                                 {[
                                     ['anytime', 'Anytime'],
                                     ['anchor', 'Relative to a prayer'],
                                     ['fixed', 'Fixed time'],
                                 ].map(([value, label]) => (
-                                    <label key={value} className="flex items-center gap-2 text-sm">
+                                    <label key={value} className="flex items-center gap-2 text-sm text-base-content">
                                         <input
                                             type="radio"
                                             name="timing"
                                             value={value}
                                             checked={data.timing === value}
                                             onChange={(e) => setData('timing', e.target.value)}
-                                            className="border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                            className="radio radio-primary radio-sm"
                                         />
                                         {t(label)}
                                     </label>
@@ -311,7 +307,7 @@ export default function Form({ routine }) {
                             </div>
 
                             {data.timing === 'anchor' && (
-                                <div className="flex gap-4">
+                                <div className="flex flex-wrap gap-4">
                                     <div>
                                         <InputLabel htmlFor="anchor" value={t('Prayer')} />
                                         <select
@@ -336,7 +332,7 @@ export default function Form({ routine }) {
                                             type="number"
                                             min="-180"
                                             max="300"
-                                            className="mt-1 block w-28"
+                                            className={`${inputClasses} w-28`}
                                             value={data.offset_minutes}
                                             onChange={(e) => setData('offset_minutes', e.target.value)}
                                         />
@@ -351,7 +347,7 @@ export default function Form({ routine }) {
                                     <TextInput
                                         id="fixed_time"
                                         type="time"
-                                        className="mt-1 block w-36"
+                                        className={`${inputClasses} w-36`}
                                         value={data.fixed_time}
                                         onChange={(e) => setData('fixed_time', e.target.value)}
                                     />
@@ -361,35 +357,35 @@ export default function Form({ routine }) {
                         </fieldset>
 
                         <fieldset className="space-y-2">
-                            <legend className="text-sm font-medium text-gray-700">{t('Reminders')}</legend>
-                            <label className="flex items-center gap-2 text-sm text-gray-700">
+                            <legend className="text-sm font-medium text-base-content">{t('Reminders')}</legend>
+                            <label className="flex items-center gap-2 text-sm text-base-content">
                                 <input
                                     type="checkbox"
                                     checked={data.reminder_enabled}
                                     onChange={(e) => setData('reminder_enabled', e.target.checked)}
-                                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                    className="checkbox checkbox-primary checkbox-sm"
                                 />
                                 {t('Remind me')}
                             </label>
-                            <label className="flex items-center gap-2 text-sm text-gray-700">
+                            <label className="flex items-center gap-2 text-sm text-base-content">
                                 <input
                                     type="checkbox"
                                     checked={data.nag_mode}
                                     onChange={(e) => setData('nag_mode', e.target.checked)}
                                     disabled={!data.reminder_enabled}
-                                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                    className="checkbox checkbox-primary checkbox-sm"
                                 />
                                 {t('Nag me until done (every 30 min, max 4 times)')}
                             </label>
                         </fieldset>
 
-                        <div className="flex gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <InputLabel htmlFor="starts_on" value={t('Starts on')} />
                                 <TextInput
                                     id="starts_on"
                                     type="date"
-                                    className="mt-1 block"
+                                    className={`${inputClasses} block w-full`}
                                     value={data.starts_on}
                                     onChange={(e) => setData('starts_on', e.target.value)}
                                 />
@@ -400,7 +396,7 @@ export default function Form({ routine }) {
                                 <TextInput
                                     id="ends_on"
                                     type="date"
-                                    className="mt-1 block"
+                                    className={`${inputClasses} block w-full`}
                                     value={data.ends_on}
                                     onChange={(e) => setData('ends_on', e.target.value)}
                                 />
@@ -409,23 +405,23 @@ export default function Form({ routine }) {
                         </div>
 
                         {editing && (
-                            <label className="flex items-center gap-2 text-sm text-gray-700">
+                            <label className="flex items-center gap-2 text-sm text-base-content">
                                 <input
                                     type="checkbox"
                                     checked={data.is_active}
                                     onChange={(e) => setData('is_active', e.target.checked)}
-                                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                    className="checkbox checkbox-primary checkbox-sm"
                                 />
                                 {t('Active')}
                             </label>
                         )}
 
-                        <PrimaryButton disabled={processing}>
+                        <PrimaryButton disabled={processing} className="w-full sm:w-auto">
                             {editing ? t('Save changes') : t('Create routine')}
                         </PrimaryButton>
-                    </form>
-                </div>
-            </div>
+                    </div>
+                </form>
+            </Container>
         </AuthenticatedLayout>
     );
 }

@@ -334,6 +334,125 @@ Tasks:
 4. Versioned release v1.0.0, changelog, GitHub Release with Docker image (GHCR).
 Acceptance: CI publishes image on tag; load test passes; export produces complete user archive.
 
+### Phase 8 — Dashboard UI Overhaul (daisyUI)
+**Status: shipped (June 2026).** Post-launch UI polish — replace the Breeze top-bar + single-column Today view with a modern dashboard shell.
+
+Tasks:
+1. Add `daisyui@4` (Tailwind v3 plugin, CSS-only, ~30KB gz) with a custom `deenmate` theme reusing the existing emerald/blue/amber/violet palette tokens.
+2. New `Sidebar` (collapsible, grouped: Worship / Life / Insights / Donate) using daisyUI `menu` classes; `MobileDrawer` (HeadlessUI `Dialog`) for mobile slide-in.
+3. Rewrite `AuthenticatedLayout` so the sidebar shell is used by every authed page.
+4. New components: `NextPrayerCountdown` (live 1s tick via `useNextPrayer` hook), `KpiCard` (daisyUI `stat`), `DashboardHeader`, `GoalsCarousel`.
+5. `PrayerTimeService::next()` — returns next prayer `name` + `at` (no DB; pure calculation). `DashboardController` exposes it as `nextPrayer` Inertia prop.
+6. `Dashboard.jsx` — 2-col grid (`lg:grid-cols-3`, checklist spans 2), KPI strip via daisyUI `stats stats-horizontal`, right rail = countdown + goals + activity + quick-add.
+7. RTL preserved via logical properties (`border-e`, `ms-*`, `me-*`); drawer slides from start edge automatically.
+8. i18n: 14 new keys in `en.json` + `bn.json` (Worship, Insights, Next prayer, Set location for prayer times, Sidebar collapse/expand, Open/Close menu, Quick add, Activity, Streak, days streak, View all goals).
+
+Acceptance (all green):
+- [x] Dashboard renders 2-col grid on `lg+`, single column on mobile.
+- [x] Sidebar visible on `lg+`, drawer on mobile (hamburger button).
+- [x] Next-prayer countdown ticks every second, rolls to next day correctly after Isha.
+- [x] All sidebar routes navigate; current page highlighted.
+- [x] Only one new dep: `daisyui` (devDependency, build-time, no runtime JS).
+- [x] RTL (`ar`): sidebar flips to right, drawer slides from right.
+- [x] Feature + unit tests green (127 tests, 509 assertions).
+- [x] `pint`, `phpstan`, `eslint`, `pnpm build` all clean.
+- [x] No color drift from existing `emerald/blue/amber/violet` palette.
+
+Out of scope (explicit): no charts lib, no dark mode toggle work (verify only), no new service classes, no migrations, no Circles/Library page changes.
+
+### Phase 9 — Settings + Profile UI + Full-width + 320px → 4K Responsive
+**Status: shipped (June 2026).** Modernise the two Breeze-stamped pages; enforce a 100% width / mobile-first layout policy across the entire app; verify clean rendering at every viewport from 320px to 4K.
+
+Tasks:
+1. Add `3xl: '1920px'` and `4xl: '2560px'` screen extensions in `tailwind.config.js` (extends Tailwind defaults — no plugin needed).
+2. New shared components: `Container` (max-w-7xl wrapper), `PageHeader`, `ResponsiveGrid`, `SettingsTabs`, `SettingsCard`, `SettingsField`, `ProfileHeader`, `ProfileTabs`.
+3. Rewrite `Settings/Index.jsx` with 5 daisyUI tabs (Prayer times / Calendar / Notifications / Privacy / Account). Each tab is full-width, 2-col grid on `lg+`, 3-col on `3xl+`. daisyUI components: card, tabs, form-control, input, select, radio, toggle, btn, alert, badge, divider, modal, alert.
+4. Rewrite `Profile/Edit.jsx` with 3 daisyUI tabs (Profile / Security / Danger zone). Avatar header via `avatar placeholder`. Delete confirmation uses daisyUI `modal modal-bottom sm:modal-middle` instead of inline confirm.
+5. Rewrite the 3 `Profile/Partials/*` forms to use daisyUI form-control + input-bordered + label-text.
+6. Width + scaling + card-wrap sweep across 14 module pages (Adhkar, Circles, Fasting, Goals, Hifz, Library, Quran, Reports, Routines, Salah, Todos, Zakat — Donate intentionally left on GuestLayout; Tasbih has no top-level max-w). Replace `mx-auto max-w-*` + custom padding with `<Container>`; apply responsive grid classes (1 col mobile → 2 col sm → 3 col lg → 4 col 3xl).
+7. Responsive typography: page title 20px→24px→30px→36px→48px across breakpoints; stat value 24px→30px→36px→48px; button stacks `flex-col sm:flex-row`.
+8. 320px → 4K audit: tabs horizontal-scroll on mobile (no overflow), form fields full-width, button stacks, long-text `break-words`, KPI strip stacks below `sm` then goes horizontal.
+9. i18n: 30 new keys × 2 locales (Account, Security, Danger zone, 5 settings tab labels, 3 profile tab labels, Member since, Name, Email, Current/New/Confirm Password, etc.).
+
+Acceptance (all green):
+- [x] Settings renders 5 daisyUI tabs, full-width, 2-col on lg+, 3-col on 3xl+.
+- [x] Profile renders 3 daisyUI tabs + avatar header, full-width.
+- [x] Zero `max-w-*` on page content (only Container's `max-w-7xl` + intentional Donate GuestLayout).
+- [x] Tailwind extended with `3xl` (1920px) and `4xl` (2560px) screens.
+- [x] Tabs horizontal-scroll on mobile (`overflow-x-auto` wrapper, `min-w-max` on `tabs`).
+- [x] RTL: tabs flip via logical properties, header stacks, form fields full-width.
+- [x] 129 tests pass (2 new for Settings/Profile rendering + password update).
+- [x] `pint`, `phpstan`, `eslint`, `pnpm build` all clean.
+- [x] All UI from daisyUI semantic classes; no inline hexes.
+
+Out of scope (explicit): no per-page redesign of module pages (cosmetic width + card wrap only); no backend changes; no migrations; no new services; no dark mode toggle work; no Playwright browser tests this phase (rely on Tailwind responsive utilities + manual visual check).
+
+### Phase 10 — Complete the Settings Page
+**Status: shipped (June 2026).** Make every Settings tab fully functional — no stubs, no 404 links, no dead UI.
+
+Tasks:
+1. Migration adds 3 columns to `users`: `display_name` (string 60, nullable), `theme` (enum deenmate/dark/system, default deenmate), `notification_preferences` (json, nullable).
+2. User model: add 3 fields to `$fillable`, cast `notification_preferences` to `array`, add `defaultNotificationPreferences()` static returning 6-channel defaults (salah ON, morning ON, evening OFF, adhkar ON, fasting ON, weekly OFF).
+3. `UpdateSettingsRequest`: add validation for `display_name` (nullable, max 60), `theme` (required, in:deenmate/dark/system), `notification_preferences.*` (boolean).
+4. `SettingsController::edit`: expose `notificationPreferences` (with defaults) and `accountInfo` (email, email_verified_at, created_at) as Inertia props.
+5. New `useGeolocation` hook with loading + 4 error states (unsupported / permission denied / position unavailable / timeout) + 10s timeout.
+6. New `NotificationChannelToggle` component using daisyUI `toggle`.
+7. `Settings/Index.jsx`:
+   - **Notifications tab** — add 6-channel toggle matrix below the existing push enable/disable.
+   - **Privacy tab** — replace dead `route('export.index')` with 4 working export rows (salah/tasks/quran/full), add danger zone card with link to `route('profile.edit')#danger`.
+   - **Account tab** — full rewrite: display name input, 3-option theme picker (Light/Dark/System with live preview), account info card (email + verified badge + member since), "Manage account" link to Profile.
+   - **Geolocation** — wire to new hook, show loading spinner + error messages, add "Clear" button when lat/lng populated.
+   - **Save bar** — hidden on Privacy tab; visible only on form tabs AND when `isDirty`.
+   - **Theme** — apply `<html data-theme>` via useEffect when `data.theme` changes, persist to `localStorage`.
+8. i18n: 36 new keys × 2 locales (Display, Theme, Light/Dark/System, 6 channel labels + descriptions, 4 geolocation error states, account info labels, your data / delete account).
+9. Extend `SettingsTest` with 5 new tests: display_name + theme update, max length enforced, theme validation, notification preferences persist, defaults exposed. Fix 2 pre-existing tests that omitted `theme`.
+
+Acceptance (all green):
+- [x] Every Settings tab is fully functional — no stubs, no 404 links.
+- [x] `display_name`, `theme`, `notification_preferences` persist via form.
+- [x] 6-channel notification matrix with sensible defaults.
+- [x] 3-option theme picker switches `<html data-theme>` live + persists.
+- [x] Geolocation shows loading + 4 error states.
+- [x] Save bar hidden on Privacy tab; visible only on form tabs when dirty.
+- [x] All 4 working export routes linked in Privacy tab.
+- [x] 134 tests pass (5 new for Phase 10).
+- [x] `pint`, `phpstan`, `eslint`, `pnpm build` all clean.
+- [x] All UI from daisyUI semantic classes; no inline hexes.
+
+Out of scope (explicit): no new service classes; no breaking schema changes (all new columns nullable/with default); no Profile page redesign (only `#danger` hash linking); no Breeze Profile page removal.
+
+### Phase 11 — UI Bug Fixes (Sidebar Coverage, Dark Mode, Scroll Isolation, Icons, Mobile Drawer)
+**Status: shipped (June 2026).** Five real UI bugs reported in user testing.
+
+Bugs fixed:
+1. **Sidebar missing routes** — Library page had controller + view but no route. Profile and Settings were not in the sidebar. Donate link used broken `donate.index` (route name is `donate`).
+2. **Always-light / always-dark pages** — 19 page files had hardcoded `bg-white` / `text-gray-*` / `dark:*` classes that bypassed the daisyUI `data-theme` system, so they didn't follow the theme switcher.
+3. **Sidebar scrolled with right content** — `AuthenticatedLayout` used `min-h-screen` on a flex container; when the right `<main>` overflowed, the page scrolled and the sidebar went with it.
+4. **Irrelevant / duplicate icons** — 4 sidebar icons were confusing (heart for both Adhkar + Donate, bar-chart for both Goals + Reports, plus sign for Tasbih, sliders for Today).
+5. **Mobile drawer auto-closed on mount** — broken `useEffect` cleanup syntax ran `onClose()` immediately, so tapping the hamburger triggered a draw-then-close cycle.
+
+Tasks:
+1. Added `Route::get('/library', ...)` with `library.index` name; added `LibraryController` import.
+2. Added `library.index`, `profile.edit`, `settings.edit` to `Sidebar.jsx` + `MobileDrawer.jsx` `NAV`. Fixed `donate.index` → `donate`. Converted user footer (was static avatar+name) to daisyUI `dropdown` with Profile / Settings / Logout menu items.
+3. Rewrote `SidebarLink.jsx` `ICONS` map with 16 distinct semantic Heroicons paths (home, clock, sparkles, book-open, bookmark, arrow-path, library, list-bullet, check-circle, moon, scale, chart-bar, document-chart-bar, user-group, gift, user-circle, cog-6-tooth).
+4. Rewrote `AuthenticatedLayout.jsx` shell: `flex h-screen overflow-hidden` outer, `flex flex-col overflow-hidden` right column, navbar/header `shrink-0`, `<main>` `flex-1 overflow-y-auto` (only scroll context).
+5. Removed broken `useEffect` in `MobileDrawer.jsx`. Added route-change auto-close via `useRef` pattern.
+6. Systematic class swap across 19 page files + `GuestLayout.jsx`: `bg-white` → `bg-base-100`, `bg-gray-*` → `bg-base-200/300`, `text-gray-900/800/700/600/500/400` → `text-base-content/(70/60/50)`, `border-gray-*` → `border-base-300`, brand colors → daisyUI semantic (`emerald` → `primary`/`success`, `amber` → `warning`, `blue` → `info`, `rose` → `error`, `purple` → `secondary`). All `dark:*` variants removed.
+7. i18n: 2 new keys (Library, Account menu) × 2 locales.
+
+Acceptance (all green):
+- [x] Sidebar (desktop + mobile) shows 16 nav items including Profile, Settings, Library.
+- [x] `/library` route returns 200.
+- [x] Zero `bg-white` / `bg-gray-*` / `text-gray-*` / `dark:*` classes remain in `resources/js/Pages/` or `resources/js/Layouts/` (verified via grep).
+- [x] 16 distinct sidebar icons; no duplicates.
+- [x] Sidebar viewport-locked; right column scrolls independently.
+- [x] Mobile drawer opens on tap, closes on link tap / backdrop / Esc; no auto-close on mount.
+- [x] 134 tests pass.
+- [x] `pint`, `phpstan`, `eslint`, `pnpm build` all clean.
+- [x] Dark/Light theme switch flips every page correctly (Settings → Account → Theme picker).
+
+Out of scope (explicit): no new service classes; no migrations; no new tests (UI bugs verified manually via PR checklist); no new dependencies; no Library page redesign.
+
 ---
 
 ## §8 — Open Source Strategy

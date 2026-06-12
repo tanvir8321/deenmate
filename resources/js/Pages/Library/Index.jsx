@@ -1,5 +1,6 @@
 import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 const CATEGORY_LABELS = {
@@ -29,64 +30,66 @@ export default function Index({ templates }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold text-base-content">
                     {t('Routine Library')}
                 </h2>
             }
         >
             <Head title={t('Routine Library')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-3xl space-y-6 px-4 sm:px-6 lg:px-8">
+            <Container className="space-y-4 py-2">
                     {templates.length === 0 && (
-                        <div className="rounded-lg bg-white p-8 text-center text-gray-500 shadow">
-                            {t('No templates available yet.')}
+                        <div className="card bg-base-100 shadow">
+                            <div className="card-body p-8 text-center text-base-content/60">
+                                {t('No templates available yet.')}
+                            </div>
                         </div>
                     )}
 
                     {Object.entries(grouped).map(([category, items]) => (
                         <div key={category}>
-                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-base-content/60">
                                 {t(CATEGORY_LABELS[category] ?? category)}
                             </h3>
                             <div className="space-y-3">
                                 {items.map((template) => (
                                     <div
                                         key={template.id}
-                                        className="flex items-center justify-between rounded-lg bg-white p-4 shadow"
+                                        className="card bg-base-100 shadow"
                                     >
-                                        <div className="min-w-0 flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <p className="truncate font-medium text-gray-900">
-                                                    {template.title}
+                                        <div className="card-body flex-row items-center justify-between p-4">
+                                            <div className="min-w-0 flex-1">
+                                                <div className="flex items-center gap-2">
+                                                    <p className="truncate font-medium text-base-content">
+                                                        {template.title}
+                                                    </p>
+                                                    {template.verified && (
+                                                        <span className="badge badge-success badge-sm">
+                                                            {t('Verified')}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="mt-1 text-sm text-base-content/60">{template.description}</p>
+                                                <p className="mt-1 text-xs text-base-content/50">
+                                                    {template.install_count > 0
+                                                        ? t(':count installs', { count: template.install_count })
+                                                        : t('Not yet installed')}
                                                 </p>
-                                                {template.verified && (
-                                                    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
-                                                        {t('Verified')}
-                                                    </span>
-                                                )}
                                             </div>
-                                            <p className="mt-1 text-sm text-gray-500">{template.description}</p>
-                                            <p className="mt-1 text-xs text-gray-400">
-                                                {template.install_count > 0
-                                                    ? t(':count installs', { count: template.install_count })
-                                                    : t('Not yet installed')}
-                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={() => install(template)}
+                                                className="btn btn-primary btn-sm ms-3 shrink-0"
+                                            >
+                                                {t('Install')}
+                                            </button>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => install(template)}
-                                            className="ml-3 shrink-0 rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-                                        >
-                                            {t('Install')}
-                                        </button>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     ))}
-                </div>
-            </div>
+            </Container>
         </AuthenticatedLayout>
     );
 }

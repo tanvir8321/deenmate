@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 function describeRule(rule, t) {
@@ -39,7 +40,7 @@ export default function Index({ routines }) {
         <AuthenticatedLayout
             header={
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                    <h2 className="text-xl font-semibold text-base-content">
                         {t('Routines')}
                     </h2>
                     <Link href={route('routines.create')}>
@@ -50,24 +51,24 @@ export default function Index({ routines }) {
         >
             <Head title={t('Routines')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-3xl space-y-3 px-4 sm:px-6 lg:px-8">
+            <Container className="space-y-4 py-2">
                     {routines.length === 0 && (
-                        <div className="rounded-lg bg-white p-8 text-center text-gray-500 shadow">
-                            {t('No routines yet. Create your first recurring deed.')}
+                        <div className="card bg-base-100 shadow">
+                            <div className="card-body p-8 text-center text-base-content/60">
+                                {t('No routines yet. Create your first recurring deed.')}
+                            </div>
                         </div>
                     )}
 
                     {routines.map((routine) => (
                         <div
                             key={routine.id}
-                            className={`flex items-center gap-3 rounded-lg bg-white p-4 shadow ${
-                                routine.is_active ? '' : 'opacity-60'
-                            }`}
+                            className={`card bg-base-100 shadow ${!routine.is_active ? 'opacity-60' : ''}`}
                         >
+                            <div className="card-body flex-row items-center gap-3 p-4">
                             <div className="min-w-0 flex-1">
-                                <p className="truncate font-medium text-gray-900">{routine.title}</p>
-                                <p className="text-sm text-gray-500">
+                                <p className="truncate font-medium text-base-content">{routine.title}</p>
+                                <p className="text-sm text-base-content/60">
                                     {describeRule(routine.recurrence, t)}
                                     {routine.anchor &&
                                         ` · ${t(routine.anchor)}${
@@ -80,27 +81,27 @@ export default function Index({ routines }) {
                                 </p>
                             </div>
                             {!routine.is_active && (
-                                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
+                                <span className="badge badge-neutral badge-sm">
                                     {t('Paused')}
                                 </span>
                             )}
                             <Link
                                 href={route('routines.edit', routine.id)}
-                                className="text-sm font-medium text-emerald-600 hover:underline"
+                                className="link link-primary text-sm font-medium"
                             >
                                 {t('Edit')}
                             </Link>
                             <button
                                 type="button"
                                 onClick={() => destroy(routine)}
-                                className="text-sm text-rose-500 hover:underline"
+                                className="link link-error text-sm"
                             >
                                 {t('Delete')}
                             </button>
+                            </div>
                         </div>
                     ))}
-                </div>
-            </div>
+            </Container>
         </AuthenticatedLayout>
     );
 }

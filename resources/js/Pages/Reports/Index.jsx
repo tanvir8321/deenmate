@@ -1,19 +1,20 @@
 import { Head } from '@inertiajs/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 function CompletionBar({ pct }) {
     return (
-        <div className="flex h-6 w-full overflow-hidden rounded bg-gray-200">
+        <div className="flex h-6 w-full overflow-hidden rounded bg-base-300">
             <div
-                className="flex items-center justify-center bg-emerald-500 text-xs font-medium text-white transition-all duration-300"
+                className="flex items-center justify-center bg-success/100 text-xs font-medium text-base-content transition-all duration-300"
                 style={{ width: `${Math.min(pct, 100)}%` }}
             >
                 {pct > 15 ? `${pct}%` : ''}
             </div>
             {pct <= 99 && (
-                <span className="ml-2 self-center text-xs text-gray-500">
+                <span className="ml-2 self-center text-xs text-base-content/60">
                     {pct <= 15 ? `${pct}%` : ''}
                 </span>
             )}
@@ -21,13 +22,13 @@ function CompletionBar({ pct }) {
     );
 }
 
-function StatCard({ label, value, color = 'bg-blue-500' }) {
+function StatCard({ label, value, color = 'bg-info/100' }) {
     return (
-        <div className="flex flex-col items-center rounded-lg border border-gray-200 p-3">
+        <div className="flex flex-col items-center rounded-lg border border-base-300 p-3">
             <span className={`text-2xl font-bold ${color.replace('bg-', 'text-').replace('-500', '-600')}`}>
                 {value}
             </span>
-            <span className="text-xs text-gray-500">{label}</span>
+            <span className="text-xs text-base-content/60">{label}</span>
         </div>
     );
 }
@@ -70,15 +71,15 @@ function HeatmapGrid({ heatmap, year, months }) {
                 <div key={ri} className="flex flex-col gap-1">
                     {row.map((date, di) => {
                         if (!date) {
-                            return <div key={di} className="h-3 w-3 rounded-sm bg-gray-100" />;
+                            return <div key={di} className="h-3 w-3 rounded-sm bg-base-200" />;
                         }
                         const val = map[date] || 0;
                         const colors = [
-                            'bg-gray-200',
-                            'bg-emerald-200',
+                            'bg-base-300',
+                            'bg-success/20',
                             'bg-emerald-400',
-                            'bg-emerald-500',
-                            'bg-emerald-600',
+                            'bg-success/100',
+                            'bg-primary',
                             'bg-emerald-800',
                         ];
                         const isToday = date === today;
@@ -159,26 +160,25 @@ export default function Index() {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold leading-tight text-base-content">
                     {t('Reports')}
                 </h2>
             }
         >
             <Head title={t('Reports')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-4xl space-y-6 px-4 sm:px-6 lg:px-8">
+            <Container className="space-y-4 py-2">
                     {/* Tabs */}
                     <div className="flex items-center justify-between">
-                        <div className="flex rounded-lg border border-gray-200 bg-white p-1">
+                        <div className="flex rounded-lg border border-base-300 bg-base-100 p-1">
                             {['weekly', 'monthly', 'yearly'].map((tabKey) => (
                                 <button
                                     key={tabKey}
                                     onClick={() => setTab(tabKey)}
                                     className={`rounded-md px-4 py-1.5 text-sm font-medium transition ${
                                         tab === tabKey
-                                            ? 'bg-emerald-600 text-white shadow'
-                                            : 'text-gray-600 hover:text-gray-900'
+                                            ? 'bg-primary text-base-content shadow'
+                                            : 'text-base-content/70 hover:text-base-content'
                                     }`}
                                 >
                                     {t(`reports.${tabKey}`)}
@@ -189,7 +189,7 @@ export default function Index() {
                         {(tab === 'monthly' || tab === 'yearly') && (
                             <button
                                 onClick={() => setIsHijri((h) => !h)}
-                                className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900"
+                                className="rounded-lg border border-base-300 bg-base-100 px-3 py-1.5 text-sm font-medium text-base-content/70 hover:text-base-content"
                             >
                                 {isHijri ? t('reports.switch_gregorian') : t('reports.switch_hijri')}
                             </button>
@@ -200,15 +200,15 @@ export default function Index() {
                     <div className="flex items-center justify-between">
                         <button
                             onClick={navPrev}
-                            className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50"
+                            className="rounded-lg border border-base-300 bg-base-100 px-3 py-1.5 text-sm text-base-content/70 hover:bg-base-200"
                         >
                             &larr; {t('reports.previous')}
                         </button>
-                        <span className="text-sm font-medium text-gray-700">{periodLabel}</span>
+                        <span className="text-sm font-medium text-base-content/80">{periodLabel}</span>
                         <button
                             onClick={navNext}
                             disabled={offset === 0}
-                            className={`rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 ${
+                            className={`rounded-lg border border-base-300 bg-base-100 px-3 py-1.5 text-sm text-base-content/70 hover:bg-base-200 ${
                                 offset === 0 ? 'invisible' : ''
                             }`}
                         >
@@ -218,21 +218,21 @@ export default function Index() {
 
                     {loading && (
                         <div className="flex justify-center py-12">
-                            <div className="h-8 w-8 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent" />
+                            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
                         </div>
                     )}
 
                     {!loading && data && (
                         <>
                             {/* Completion trend */}
-                            <div className="rounded-lg bg-white p-4 shadow">
-                                <h3 className="mb-3 text-sm font-medium text-gray-700">
+                            <div className="rounded-lg bg-base-100 p-4 shadow">
+                                <h3 className="mb-3 text-sm font-medium text-base-content/80">
                                     {t('reports.completion_trend')}
                                 </h3>
                                 <div className="space-y-2">
                                     {(data.days || []).map((day) => (
                                         <div key={day.date} className="flex items-center gap-2">
-                                            <span className="w-20 shrink-0 text-xs text-gray-500">
+                                            <span className="w-20 shrink-0 text-xs text-base-content/60">
                                                 {day.date.slice(5)}
                                             </span>
                                             <CompletionBar pct={day.completion_pct} />
@@ -246,51 +246,51 @@ export default function Index() {
                                 <StatCard
                                     label={t('reports.quran_pages')}
                                     value={data.quran_pages ?? 0}
-                                    color="bg-emerald-500"
+                                    color="bg-success/100"
                                 />
                                 <StatCard
                                     label={t('reports.fasts_completed')}
                                     value={data.fasting_completed ?? 0}
-                                    color="bg-amber-500"
+                                    color="bg-warning/100"
                                 />
                                 <StatCard
                                     label={t('reports.todos_completed')}
                                     value={data.todos_completed ?? 0}
-                                    color="bg-blue-500"
+                                    color="bg-info/100"
                                 />
                                 <StatCard
                                     label={t('reports.current_streak')}
                                     value={data.current_streak ?? 0}
-                                    color="bg-purple-500"
+                                    color="bg-secondary/100"
                                 />
                             </div>
 
                             {/* Salah breakdown */}
                             {data.salah_breakdown && (
-                                <div className="rounded-lg bg-white p-4 shadow">
-                                    <h3 className="mb-3 text-sm font-medium text-gray-700">
+                                <div className="rounded-lg bg-base-100 p-4 shadow">
+                                    <h3 className="mb-3 text-sm font-medium text-base-content/80">
                                         {t('reports.salah_breakdown')}
                                     </h3>
                                     <div className="grid grid-cols-4 gap-3">
                                         <StatCard
                                             label={t('reports.jamaat')}
                                             value={data.salah_breakdown.jamaat ?? 0}
-                                            color="bg-emerald-500"
+                                            color="bg-success/100"
                                         />
                                         <StatCard
                                             label={t('reports.alone')}
                                             value={data.salah_breakdown.alone ?? 0}
-                                            color="bg-blue-500"
+                                            color="bg-info/100"
                                         />
                                         <StatCard
                                             label={t('reports.qada')}
                                             value={data.salah_breakdown.qada ?? 0}
-                                            color="bg-amber-500"
+                                            color="bg-warning/100"
                                         />
                                         <StatCard
                                             label={t('reports.missed')}
                                             value={data.salah_breakdown.missed ?? 0}
-                                            color="bg-red-500"
+                                            color="bg-error/100"
                                         />
                                     </div>
                                 </div>
@@ -298,8 +298,8 @@ export default function Index() {
 
                             {/* Yearly heatmap */}
                             {tab === 'yearly' && data.streak_heatmap && (
-                                <div className="rounded-lg bg-white p-4 shadow">
-                                    <h3 className="mb-3 text-sm font-medium text-gray-700">
+                                <div className="rounded-lg bg-base-100 p-4 shadow">
+                                    <h3 className="mb-3 text-sm font-medium text-base-content/80">
                                         {t('reports.year_heatmap')}
                                     </h3>
                                     <div className="overflow-x-auto">
@@ -315,8 +315,8 @@ export default function Index() {
 
                             {/* Goals */}
                             {tab === 'yearly' && data.goals && data.goals.length > 0 && (
-                                <div className="rounded-lg bg-white p-4 shadow">
-                                    <h3 className="mb-3 text-sm font-medium text-gray-700">
+                                <div className="rounded-lg bg-base-100 p-4 shadow">
+                                    <h3 className="mb-3 text-sm font-medium text-base-content/80">
                                         {t('Goals')}
                                     </h3>
                                     <div className="space-y-3">
@@ -326,7 +326,7 @@ export default function Index() {
                                                 : 0;
                                             return (
                                                 <div key={i}>
-                                                    <div className="mb-1 flex justify-between text-xs text-gray-600">
+                                                    <div className="mb-1 flex justify-between text-xs text-base-content/70">
                                                         <span>{goal.title}</span>
                                                         <span>
                                                             {goal.current} / {goal.target} {goal.unit}
@@ -341,32 +341,32 @@ export default function Index() {
                             )}
 
                             {/* Export buttons */}
-                            <div className="rounded-lg bg-white p-4 shadow">
-                                <h3 className="mb-3 text-sm font-medium text-gray-700">
+                            <div className="rounded-lg bg-base-100 p-4 shadow">
+                                <h3 className="mb-3 text-sm font-medium text-base-content/80">
                                     {t('reports.export')}
                                 </h3>
                                 <div className="flex flex-wrap gap-2">
                                     <a
                                         href={route('export.salah', { format: 'xlsx' })}
-                                        className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+                                        className="rounded-lg border border-base-300 px-3 py-1.5 text-xs font-medium text-base-content/70 hover:bg-base-200"
                                     >
                                         {t('reports.export_salah_xlsx')}
                                     </a>
                                     <a
                                         href={route('export.tasks', { format: 'xlsx' })}
-                                        className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+                                        className="rounded-lg border border-base-300 px-3 py-1.5 text-xs font-medium text-base-content/70 hover:bg-base-200"
                                     >
                                         {t('reports.export_tasks_xlsx')}
                                     </a>
                                     <a
                                         href={route('export.quran', { format: 'xlsx' })}
-                                        className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+                                        className="rounded-lg border border-base-300 px-3 py-1.5 text-xs font-medium text-base-content/70 hover:bg-base-200"
                                     >
                                         {t('reports.export_quran_xlsx')}
                                     </a>
                                     <a
                                         href={route('export.full', { format: 'json' })}
-                                        className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+                                        className="rounded-lg border border-base-300 px-3 py-1.5 text-xs font-medium text-base-content/70 hover:bg-base-200"
                                     >
                                         {t('reports.export_full_json')}
                                     </a>
@@ -374,8 +374,7 @@ export default function Index() {
                             </div>
                         </>
                     )}
-                </div>
-            </div>
+            </Container>
         </AuthenticatedLayout>
     );
 }

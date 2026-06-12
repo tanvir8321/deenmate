@@ -1,6 +1,7 @@
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
@@ -26,12 +27,12 @@ function MemberCard({ member, isSelf, circleId }) {
     const levelInfo = SHARE_LEVELS.find((l) => l.value === member.share_level);
 
     return (
-        <div className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 p-4">
+        <div className="flex flex-col gap-2 rounded-lg border border-base-300 bg-base-200 p-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <span className="font-semibold text-gray-800">{member.name}</span>
+                    <span className="font-semibold text-base-content">{member.name}</span>
                     {isSelf && (
-                        <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-xs font-medium text-indigo-700">
+                        <span className="rounded bg-primary px-1.5 py-0.5 text-xs font-medium text-primary">
                             {t('You')}
                         </span>
                     )}
@@ -41,7 +42,7 @@ function MemberCard({ member, isSelf, circleId }) {
                         value={member.share_level}
                         onChange={handleShareChange}
                         disabled={processing}
-                        className="rounded-md border-gray-300 text-xs shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="rounded-md border-base-300 text-xs shadow-sm focus:border-primary focus:ring-primary"
                         title={levelInfo?.tooltip}
                     >
                         {SHARE_LEVELS.map((lvl) => (
@@ -51,7 +52,7 @@ function MemberCard({ member, isSelf, circleId }) {
                         ))}
                     </select>
                 ) : (
-                    <span className="text-xs text-gray-500" title={levelInfo?.tooltip}>
+                    <span className="text-xs text-base-content/60" title={levelInfo?.tooltip}>
                         {levelInfo?.label}
                     </span>
                 )}
@@ -60,24 +61,24 @@ function MemberCard({ member, isSelf, circleId }) {
             {member.share_level !== 'streak_only' && (
                 <div className="flex items-center gap-3">
                     <div className="flex-1">
-                        <div className="h-2 w-full rounded-full bg-gray-200">
+                        <div className="h-2 w-full rounded-full bg-base-300">
                             <div
-                                className="h-2 rounded-full bg-emerald-500 transition-all"
+                                className="h-2 rounded-full bg-success/100 transition-all"
                                 style={{ width: `${member.percent}%` }}
                             />
                         </div>
                     </div>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-base-content/80">
                         {member.done}/{member.total}
                     </span>
-                    <span className="text-sm font-semibold text-emerald-600">
+                    <span className="text-sm font-semibold text-primary">
                         {member.percent}%
                     </span>
                 </div>
             )}
 
             {member.share_level === 'streak_only' && member.total > 0 && (
-                <div className="flex items-center gap-1 text-sm text-emerald-600">
+                <div className="flex items-center gap-1 text-sm text-primary">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
@@ -99,42 +100,42 @@ function CircleCard({ circle, userId }) {
     }
 
     return (
-        <div className="rounded-lg bg-white shadow">
-            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <div className="rounded-lg bg-base-100 shadow">
+            <div className="flex items-center justify-between border-b border-base-300 px-6 py-4">
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800">{circle.name}</h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <h3 className="text-lg font-semibold text-base-content">{circle.name}</h3>
+                    <p className="mt-1 text-sm text-base-content/60">
                         {t('Invite code')}:{' '}
-                        <code className="rounded bg-gray-100 px-2 py-0.5 font-mono text-gray-700">
+                        <code className="rounded bg-base-200 px-2 py-0.5 font-mono text-base-content/80">
                             {circle.invite_code}
                         </code>
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
                     {circle.is_owner && (
-                        <span className="rounded bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">
+                        <span className="rounded bg-warning/15 px-2 py-1 text-xs font-medium text-warning">
                             {t('Owner')}
                         </span>
                     )}
                     {!confirmLeave ? (
                         <button
                             onClick={() => setConfirmLeave(true)}
-                            className="rounded px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
+                            className="rounded px-3 py-1.5 text-xs font-medium text-error hover:bg-error/10"
                         >
                             {t('Leave')}
                         </button>
                     ) : (
                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-500">{t('Are you sure?')}</span>
+                            <span className="text-xs text-base-content/60">{t('Are you sure?')}</span>
                             <button
                                 onClick={handleLeave}
-                                className="rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700"
+                                className="rounded bg-error px-2 py-1 text-xs font-medium text-base-content hover:bg-error/80"
                             >
                                 {t('Yes')}
                             </button>
                             <button
                                 onClick={() => setConfirmLeave(false)}
-                                className="rounded px-2 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100"
+                                className="rounded px-2 py-1 text-xs font-medium text-base-content/60 hover:bg-base-200"
                             >
                                 {t('No')}
                             </button>
@@ -186,17 +187,16 @@ export default function CirclesIndex({ circles }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold leading-tight text-base-content">
                     {t('Circles')}
                 </h2>
             }
         >
             <Head title={t('Circles')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-4xl space-y-6 px-4 sm:px-6 lg:px-8">
+            <Container className="space-y-4 py-2">
                     {success && (
-                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                        <div className="rounded-lg border border-success/30 bg-success/10 px-4 py-3 text-sm text-primary">
                             {success}
                         </div>
                     )}
@@ -205,7 +205,7 @@ export default function CirclesIndex({ circles }) {
                         {circles.length > 0 && (
                             <button
                                 onClick={() => setShowCreate(!showCreate)}
-                                className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow hover:bg-gray-50"
+                                className="rounded-lg bg-base-100 px-4 py-2 text-sm font-medium text-base-content/80 shadow hover:bg-base-200"
                             >
                                 + {t('Create Circle')}
                             </button>
@@ -213,7 +213,7 @@ export default function CirclesIndex({ circles }) {
                         {circles.length > 0 && (
                             <button
                                 onClick={() => setShowJoin(!showJoin)}
-                                className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow hover:bg-gray-50"
+                                className="rounded-lg bg-base-100 px-4 py-2 text-sm font-medium text-base-content/80 shadow hover:bg-base-200"
                             >
                                 + {t('Join Circle')}
                             </button>
@@ -223,8 +223,8 @@ export default function CirclesIndex({ circles }) {
                     {(showCreate || showJoin) && (
                         <div className="grid gap-6 sm:grid-cols-2">
                             {showCreate && (
-                                <form onSubmit={handleCreate} className="rounded-lg bg-white p-6 shadow">
-                                    <h3 className="mb-4 text-lg font-semibold text-gray-800">{t('Create a circle')}</h3>
+                                <form onSubmit={handleCreate} className="rounded-lg bg-base-100 p-6 shadow">
+                                    <h3 className="mb-4 text-lg font-semibold text-base-content">{t('Create a circle')}</h3>
 
                                     <div className="space-y-4">
                                         <div>
@@ -248,7 +248,7 @@ export default function CirclesIndex({ circles }) {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowCreate(false)}
-                                                    className="text-sm text-gray-500 hover:text-gray-700"
+                                                    className="text-sm text-base-content/60 hover:text-base-content/80"
                                                 >
                                                     {t('Cancel')}
                                                 </button>
@@ -259,8 +259,8 @@ export default function CirclesIndex({ circles }) {
                             )}
 
                             {showJoin && (
-                                <form onSubmit={handleJoin} className="rounded-lg bg-white p-6 shadow">
-                                    <h3 className="mb-4 text-lg font-semibold text-gray-800">{t('Join a circle')}</h3>
+                                <form onSubmit={handleJoin} className="rounded-lg bg-base-100 p-6 shadow">
+                                    <h3 className="mb-4 text-lg font-semibold text-base-content">{t('Join a circle')}</h3>
 
                                     <div className="space-y-4">
                                         <div>
@@ -285,7 +285,7 @@ export default function CirclesIndex({ circles }) {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowJoin(false)}
-                                                    className="text-sm text-gray-500 hover:text-gray-700"
+                                                    className="text-sm text-base-content/60 hover:text-base-content/80"
                                                 >
                                                     {t('Cancel')}
                                                 </button>
@@ -298,9 +298,9 @@ export default function CirclesIndex({ circles }) {
                     )}
 
                     {circles.length === 0 && (
-                        <div className="rounded-lg bg-white p-12 text-center shadow">
-                            <p className="text-gray-500">{t('You are not in any circles yet.')}</p>
-                            <p className="mt-1 text-sm text-gray-400">
+                        <div className="rounded-lg bg-base-100 p-12 text-center shadow">
+                            <p className="text-base-content/60">{t('You are not in any circles yet.')}</p>
+                            <p className="mt-1 text-sm text-base-content/50">
                                 {t('Create one or join with an invite code to get started.')}
                             </p>
                         </div>
@@ -309,8 +309,7 @@ export default function CirclesIndex({ circles }) {
                     {circles.map((circle) => (
                         <CircleCard key={circle.id} circle={circle} userId={userId} />
                     ))}
-                </div>
-            </div>
+            </Container>
         </AuthenticatedLayout>
     );
 }

@@ -4,6 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import TodoItem from '@/Components/TodoItem';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 function AddTodoForm({ listId }) {
@@ -42,7 +43,7 @@ function AddTodoForm({ listId }) {
                 value={data.priority}
                 onChange={(e) => setData('priority', e.target.value)}
                 aria-label={t('Priority')}
-                className="rounded-md border-gray-300 text-sm shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                className="rounded-md border-base-300 text-sm shadow-sm focus:border-primary focus:ring-primary"
             >
                 {['low', 'normal', 'high', 'urgent'].map((p) => (
                     <option key={p} value={p}>
@@ -75,7 +76,7 @@ function SubtaskRow({ subtask }) {
                 }
                 aria-label={done ? t('Mark as not done') : t('Mark as done')}
                 className={`flex h-4 w-4 items-center justify-center rounded border ${
-                    done ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 text-transparent'
+                    done ? 'border-primary bg-success/100 text-base-content' : 'border-base-300 text-transparent'
                 }`}
             >
                 <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -86,7 +87,7 @@ function SubtaskRow({ subtask }) {
                     />
                 </svg>
             </button>
-            <span className={`text-sm ${done ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
+            <span className={`text-sm ${done ? 'text-base-content/50 line-through' : 'text-base-content/80'}`}>
                 {subtask.title}
             </span>
         </div>
@@ -133,25 +134,25 @@ function TodoRow({ todo, onDragStart, onDrop }) {
         >
             <div className="group relative">
                 <TodoItem item={todo} showDate />
-                <div className="absolute end-2 top-1/2 hidden -translate-y-1/2 gap-2 bg-white ps-2 group-hover:flex">
+                <div className="absolute end-2 top-1/2 hidden -translate-y-1/2 gap-2 bg-base-100 ps-2 group-hover:flex">
                     <button
                         type="button"
                         onClick={() => setShowSubtaskInput((v) => !v)}
-                        className="text-xs text-gray-500 hover:text-emerald-600"
+                        className="text-xs text-base-content/60 hover:text-primary"
                     >
                         {t('+ subtask')}
                     </button>
                     <button
                         type="button"
                         onClick={() => setShowConvert((v) => !v)}
-                        className="text-xs text-gray-500 hover:text-emerald-600"
+                        className="text-xs text-base-content/60 hover:text-primary"
                     >
                         {t('Make routine')}
                     </button>
                     <button
                         type="button"
                         onClick={() => router.delete(route('todos.destroy', todo.id), { preserveScroll: true })}
-                        className="text-xs text-rose-400 hover:text-rose-600"
+                        className="text-xs text-rose-400 hover:text-error"
                     >
                         {t('Delete')}
                     </button>
@@ -177,7 +178,7 @@ function TodoRow({ todo, onDragStart, onDrop }) {
 
             {showConvert && (
                 <div className="flex flex-wrap items-center gap-2 ps-9 text-sm">
-                    <span className="text-gray-500">{t('Repeat')}:</span>
+                    <span className="text-base-content/60">{t('Repeat')}:</span>
                     {[
                         ['daily', 'Every day'],
                         ['weekly', 'Weekly'],
@@ -187,7 +188,7 @@ function TodoRow({ todo, onDragStart, onDrop }) {
                             key={freq}
                             type="button"
                             onClick={() => convert(freq)}
-                            className="rounded-full bg-emerald-100 px-3 py-1 text-emerald-800 hover:bg-emerald-200"
+                            className="rounded-full bg-success/15 px-3 py-1 text-primary hover:bg-success/20"
                         >
                             {t(label)}
                         </button>
@@ -226,18 +227,18 @@ export default function Index({ todos, lists, activeList }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">{t('My Todos')}</h2>
+                <h2 className="text-xl font-semibold leading-tight text-base-content">{t('My Todos')}</h2>
             }
         >
             <Head title={t('Todos')} />
 
-            <div className="py-6">
-                <div className="mx-auto flex max-w-5xl gap-6 px-4 sm:px-6 lg:px-8">
+            <Container className="py-2">
+                <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
                     <aside className="w-56 shrink-0 space-y-1">
                         <Link
                             href={route('todos.index')}
                             className={`block rounded-md px-3 py-2 text-sm ${
-                                !activeList ? 'bg-emerald-100 font-medium text-emerald-900' : 'text-gray-600 hover:bg-gray-100'
+                                !activeList ? 'bg-success/15 font-medium text-emerald-900' : 'text-base-content/70 hover:bg-base-200'
                             }`}
                         >
                             {t('All todos')}
@@ -248,12 +249,12 @@ export default function Index({ todos, lists, activeList }) {
                                     href={route('todos.index', { list: list.id })}
                                     className={`block flex-1 rounded-md px-3 py-2 text-sm ${
                                         activeList === list.id
-                                            ? 'bg-emerald-100 font-medium text-emerald-900'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                            ? 'bg-success/15 font-medium text-emerald-900'
+                                            : 'text-base-content/70 hover:bg-base-200'
                                     }`}
                                 >
                                     {list.name}
-                                    <span className="ms-1 text-xs text-gray-400">{list.pending_count}</span>
+                                    <span className="ms-1 text-xs text-base-content/50">{list.pending_count}</span>
                                 </Link>
                                 <button
                                     type="button"
@@ -277,13 +278,13 @@ export default function Index({ todos, lists, activeList }) {
                     </aside>
 
                     <main className="min-w-0 flex-1 space-y-4">
-                        <div className="rounded-lg bg-white p-4 shadow">
+                        <div className="rounded-lg bg-base-100 p-4 shadow">
                             <AddTodoForm listId={activeList} />
                         </div>
 
                         <div className="space-y-2">
                             {todos.length === 0 && (
-                                <div className="rounded-lg bg-white p-8 text-center text-gray-500 shadow">
+                                <div className="rounded-lg bg-base-100 p-8 text-center text-base-content/60 shadow">
                                     {t('Nothing here yet.')}
                                 </div>
                             )}
@@ -293,7 +294,7 @@ export default function Index({ todos, lists, activeList }) {
                         </div>
                     </main>
                 </div>
-            </div>
+            </Container>
         </AuthenticatedLayout>
     );
 }

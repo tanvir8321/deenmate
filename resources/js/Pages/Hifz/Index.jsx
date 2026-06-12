@@ -6,13 +6,14 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 const QUALITY_LABELS = [
-    { value: 0, label: 'Again', color: 'bg-red-500 hover:bg-red-600' },
-    { value: 1, label: 'Hard', color: 'bg-orange-500 hover:bg-orange-600' },
-    { value: 2, label: 'Good', color: 'bg-yellow-500 hover:bg-yellow-600' },
-    { value: 3, label: 'Easy', color: 'bg-green-500 hover:bg-green-600' },
+    { value: 0, label: 'Again', color: 'btn-error' },
+    { value: 1, label: 'Hard', color: 'btn-warning' },
+    { value: 2, label: 'Good', color: 'btn-warning btn-outline' },
+    { value: 3, label: 'Easy', color: 'btn-success' },
 ];
 
 export default function Index({ dueItems, learningItems, reviewItems }) {
@@ -53,11 +54,11 @@ export default function Index({ dueItems, learningItems, reviewItems }) {
 
     const statusBadge = (status) => {
         const colors = {
-            learning: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
-            review: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300',
+            learning: 'badge-info',
+            review: 'badge-secondary',
         };
         return (
-            <span className={`rounded px-2 py-0.5 text-xs font-medium ${colors[status] || 'bg-gray-100'}`}>
+            <span className={`badge badge-sm ${colors[status] ?? 'badge-neutral'}`}>
                 {t(status.charAt(0).toUpperCase() + status.slice(1))}
             </span>
         );
@@ -65,33 +66,35 @@ export default function Index({ dueItems, learningItems, reviewItems }) {
 
     const ItemCard = ({ item }) => (
         <div
-            className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:border-emerald-500 dark:border-gray-700 dark:bg-gray-800"
+            className="card cursor-pointer border border-base-300 bg-base-100 transition hover:border-primary"
             onClick={() => openReviewModal(item)}
         >
-            <div className="flex-1">
-                <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-900 dark:text-gray-100">
-                        {item.ref_start} - {item.ref_end}
-                    </span>
-                    {statusBadge(item.status)}
+            <div className="card-body flex-row items-center justify-between p-4">
+                <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                        <span className="font-medium text-base-content">
+                            {item.ref_start} - {item.ref_end}
+                        </span>
+                        {statusBadge(item.status)}
+                    </div>
+                    <p className="mt-1 text-sm text-base-content/60">
+                        {t('Next review')}: {item.next_review_on}
+                    </p>
                 </div>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {t('Next review')}: {item.next_review_on}
-                </p>
-            </div>
-            <div className="text-right">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {t('Ease')}: {(item.ease / 100).toFixed(1)}x
-                </span>
+                <div className="text-end">
+                    <span className="text-sm font-medium text-base-content/80">
+                        {t('Ease')}: {(item.ease / 100).toFixed(1)}x
+                    </span>
+                </div>
             </div>
         </div>
     );
 
     const Section = ({ title, items }) => (
         <div className="space-y-3">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">{title}</h3>
+            <h3 className="text-lg font-medium text-base-content">{title}</h3>
             {items.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">{t('No items')}</p>
+                <p className="text-sm text-base-content/60">{t('No items')}</p>
             ) : (
                 <div className="space-y-2">
                     {items.map((item) => (
@@ -105,34 +108,36 @@ export default function Index({ dueItems, learningItems, reviewItems }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2 className="text-xl font-semibold leading-tight text-base-content">
                     {t('Hifz Tracker')}
                 </h2>
             }
         >
             <Head title={t('Hifz Tracker')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-2xl sm:px-6 lg:px-8 space-y-6">
+            <Container className="space-y-4 py-2">
                     {dueItems.length > 0 && (
-                        <div className="rounded-lg bg-emerald-50 p-4 dark:bg-emerald-900/20">
-                            <h3 className="font-medium text-emerald-700 dark:text-emerald-300">
-                                {t('Due Today')} ({dueItems.length})
-                            </h3>
-                            <div className="mt-3 space-y-2">
-                                {dueItems.map((item) => (
-                                    <ItemCard key={item.id} item={item} />
-                                ))}
+                        <div className="alert alert-success">
+                            <div>
+                                <h3 className="font-semibold">
+                                    {t('Due Today')} ({dueItems.length})
+                                </h3>
+                                <div className="mt-2 space-y-2">
+                                    {dueItems.map((item) => (
+                                        <ItemCard key={item.id} item={item} />
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}
 
-                    <div className="bg-white p-6 shadow sm:rounded-lg dark:bg-gray-800">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                    <div className="card bg-base-100 shadow">
+                        <div className="card-body p-4 sm:p-6">
+                        <h3 className="text-lg font-medium text-base-content mb-4">
                             {t('Add Verse')}
                         </h3>
                         <form onSubmit={submitAdd} className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div>
                                     <InputLabel htmlFor="ref_start" value={t('Reference Start')} />
                                     <TextInput
@@ -160,7 +165,7 @@ export default function Index({ dueItems, learningItems, reviewItems }) {
                                 <InputLabel htmlFor="status" value={t('Status')} />
                                 <select
                                     id="status"
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-gray-600 dark:bg-gray-700"
+                                    className="select select-bordered mt-1 w-full"
                                     value={addForm.data.status}
                                     onChange={(e) => addForm.setData('status', e.target.value)}
                                 >
@@ -173,45 +178,55 @@ export default function Index({ dueItems, learningItems, reviewItems }) {
                                 {t('Add')}
                             </PrimaryButton>
                         </form>
+                        </div>
                     </div>
 
-                    <div className="bg-white p-6 shadow sm:rounded-lg dark:bg-gray-800">
+                    <div className="card bg-base-100 shadow">
+                        <div className="card-body p-4 sm:p-6">
                         <Section title={t('Learning')} items={learningItems} />
+                        </div>
                     </div>
 
-                    <div className="bg-white p-6 shadow sm:rounded-lg dark:bg-gray-800">
+                    <div className="card bg-base-100 shadow">
+                        <div className="card-body p-4 sm:p-6">
                         <Section title={t('Review')} items={reviewItems} />
+                        </div>
                     </div>
-                </div>
-            </div>
+            </Container>
 
             {showModal && selectedItem && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h3 className="text-lg font-medium text-base-content">
                             {selectedItem.ref_start} - {selectedItem.ref_end}
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p className="mt-1 text-sm text-base-content/70">
                             {t('How well did you remember?')}
                         </p>
-                        <div className="mt-4 grid grid-cols-4 gap-2">
+                        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                             {QUALITY_LABELS.map(({ value, label, color }) => (
                                 <button
                                     key={value}
                                     type="button"
                                     onClick={() => submitReview(value)}
-                                    className={`rounded-md px-3 py-2 text-sm font-medium text-white ${color} transition`}
+                                    className={`btn ${color}`}
                                 >
                                     {t(label)}
                                 </button>
                             ))}
                         </div>
-                        <div className="mt-4 flex justify-end">
+                        <div className="modal-action">
                             <SecondaryButton onClick={() => setShowModal(false)}>
                                 {t('Cancel')}
                             </SecondaryButton>
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        className="modal-backdrop"
+                        onClick={() => setShowModal(false)}
+                        aria-label={t('Close menu')}
+                    />
                 </div>
             )}
         </AuthenticatedLayout>

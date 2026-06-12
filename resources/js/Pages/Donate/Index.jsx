@@ -63,24 +63,24 @@ export default function Index() {
 
             <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
                 <div className="mb-16 text-center">
-                    <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+                    <h1 className="text-4xl font-bold tracking-tight text-base-content sm:text-5xl">
                         Support DeenMate
                     </h1>
-                    <p className="mt-4 text-xl text-emerald-600 dark:text-emerald-400 font-medium">
+                    <p className="mt-4 text-xl text-primary font-medium">
                         Sadaqah Jariyah &mdash; ongoing charity that benefits you even after death
                     </p>
-                    <p className="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    <p className="mt-6 text-lg text-base-content/70 max-w-2xl mx-auto">
                         DeenMate is a free, open-source app. Every donation helps
                         keep the servers running and development moving forward.
                         May Allah accept your contribution.
                     </p>
                 </div>
 
-                <div className="mb-16 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 p-6 text-center">
-                    <p className="text-lg font-semibold text-emerald-800 dark:text-emerald-200">
+                <div className="mb-16 rounded-2xl bg-success/10/20 border border-success/30 p-6 text-center">
+                    <p className="text-lg font-semibold text-primary">
                         All features are free, forever.
                     </p>
-                    <p className="mt-2 text-emerald-700 dark:text-emerald-300">
+                    <p className="mt-2 text-primary">
                         No paywalls, no premium tiers, no ads. Your donation is
                         purely for support &mdash; it unlocks nothing because
                         everything is already unlocked.
@@ -88,22 +88,22 @@ export default function Index() {
                 </div>
 
                 <div className="mb-16">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                    <h2 className="text-2xl font-bold text-base-content mb-8 text-center">
                         What donations fund
                     </h2>
                     <div className="grid gap-6 sm:grid-cols-3">
                         {fundingAreas.map((area) => (
                             <div
                                 key={area.title}
-                                className="rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 p-6 shadow-sm"
+                                className="rounded-xl bg-base-100 border border-base-300 p-6 shadow-sm"
                             >
-                                <div className="mb-3 text-emerald-600 dark:text-emerald-400">
+                                <div className="mb-3 text-primary">
                                     {area.icon}
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 className="text-lg font-semibold text-base-content">
                                     {area.title}
                                 </h3>
-                                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                <p className="mt-2 text-sm text-base-content/70">
                                     {area.description}
                                 </p>
                             </div>
@@ -112,7 +112,7 @@ export default function Index() {
                 </div>
 
                 <div className="mb-16">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                    <h2 className="text-2xl font-bold text-base-content mb-8 text-center">
                         Choose a platform
                     </h2>
                     <div className="grid gap-6 sm:grid-cols-3">
@@ -122,15 +122,15 @@ export default function Index() {
                                 href={platform.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex flex-col items-center rounded-xl bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 p-6 shadow-sm transition hover:border-emerald-400 hover:shadow-md dark:hover:border-emerald-600"
+                                className="group flex flex-col items-center rounded-xl bg-base-100 border border-base-300 p-6 shadow-sm transition hover:border-emerald-400 hover:shadow-md"
                             >
-                                <div className="mb-4 text-gray-700 dark:text-gray-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                <div className="mb-4 text-base-content/80 group-hover:text-primary transition-colors">
                                     {platform.icon}
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                <h3 className="text-lg font-semibold text-base-content">
                                     {platform.name}
                                 </h3>
-                                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">
+                                <p className="mt-2 text-sm text-base-content/70 text-center">
                                     {platform.description}
                                 </p>
                             </a>
@@ -138,14 +138,14 @@ export default function Index() {
                     </div>
                 </div>
 
-                <div className="rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-6 mb-16">
-                    <h2 className="text-xl font-bold text-amber-900 dark:text-amber-200 mb-3">
+                <div className="rounded-2xl bg-warning/10/20 border border-warning/30 p-6 mb-16">
+                    <h2 className="text-xl font-bold text-amber-900 mb-3">
                         For Bangladesh donors
                     </h2>
-                    <p className="text-amber-800 dark:text-amber-300 mb-4">
+                    <p className="text-warning mb-4">
                         You can also donate via bKash or Nagad:
                     </p>
-                    <div className="space-y-2 text-amber-800 dark:text-amber-300">
+                    <div className="space-y-2 text-warning">
                         <p>
                             <span className="font-semibold">bKash:</span>{' '}
                             +880 1XXX-XXXXXX (Personal)
@@ -155,13 +155,13 @@ export default function Index() {
                             +880 1XXX-XXXXXX (Personal)
                         </p>
                     </div>
-                    <p className="mt-4 text-sm text-amber-700 dark:text-amber-400">
+                    <p className="mt-4 text-sm text-warning">
                         After sending, please email us so we can record your
                         donation and send a thank-you.
                     </p>
                 </div>
 
-                <footer className="text-center text-sm text-gray-500 dark:text-gray-400 space-y-1">
+                <footer className="text-center text-sm text-base-content/60 space-y-1">
                     <p>May Allah reward you abundantly for your support.</p>
                     <p>DeenMate &middot; Free &amp; Open Source &middot; AGPL-3.0</p>
                 </footer>

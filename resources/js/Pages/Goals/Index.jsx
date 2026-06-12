@@ -8,6 +8,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Container from '@/Components/Container';
 import useTranslation from '@/hooks/useTranslation';
 
 const PERIOD_OPTIONS = ['daily', 'monthly', 'yearly'];
@@ -99,7 +100,7 @@ export default function Index({ goals }) {
         <AuthenticatedLayout
             header={
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                    <h2 className="text-xl font-semibold text-base-content">
                         {t('Goals')}
                     </h2>
                     <PrimaryButton onClick={openCreate}>{t('New goal')}</PrimaryButton>
@@ -108,19 +109,16 @@ export default function Index({ goals }) {
         >
             <Head title={t('Goals')} />
 
-            <div className="py-6">
-                <div className="mx-auto max-w-3xl space-y-4 px-4 sm:px-6 lg:px-8">
+            <Container className="space-y-4 py-2">
                     {goals.length > 0 && (
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                             {['all', 'daily', 'monthly', 'yearly'].map((p) => (
                                 <button
                                     key={p}
                                     type="button"
                                     onClick={() => setPeriodFilter(p)}
-                                    className={`rounded-full px-3 py-1 text-xs font-medium ${
-                                        periodFilter === p
-                                            ? 'bg-emerald-100 text-emerald-700'
-                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    className={`btn btn-sm ${
+                                        periodFilter === p ? 'btn-primary' : 'btn-outline'
                                     }`}
                                 >
                                     {p === 'all' ? t('All') : t(p)}
@@ -130,8 +128,10 @@ export default function Index({ goals }) {
                     )}
 
                     {filteredGoals.length === 0 && (
-                        <div className="rounded-lg bg-white p-8 text-center text-gray-500 shadow">
-                            {t('No goals yet. Set a target to track your progress.')}
+                        <div className="card bg-base-100 shadow">
+                            <div className="card-body p-8 text-center text-base-content/60">
+                                {t('No goals yet. Set a target to track your progress.')}
+                            </div>
                         </div>
                     )}
 
@@ -139,28 +139,29 @@ export default function Index({ goals }) {
                         {filteredGoals.map((goal) => (
                             <div
                                 key={goal.id}
-                                className="rounded-lg bg-white p-4 shadow"
+                                className="card bg-base-100 shadow"
                             >
+                                <div className="card-body p-4">
                                 <div className="flex items-start justify-between">
                                     <div className="min-w-0 flex-1">
-                                        <p className="truncate font-medium text-gray-900">{goal.title}</p>
-                                        <p className="text-xs text-gray-500">
+                                        <p className="truncate font-medium text-base-content">{goal.title}</p>
+                                        <p className="text-xs text-base-content/60">
                                             {t(goal.period)} · {t(goal.metric_source)}
                                             {goal.period_basis === 'hijri' && ` (${t('Hijri')})`}
                                         </p>
                                     </div>
-                                    <div className="ml-2 flex gap-1">
+                                    <div className="ms-2 flex gap-1">
                                         <button
                                             type="button"
                                             onClick={() => openEdit(goal)}
-                                            className="text-xs font-medium text-emerald-600 hover:underline"
+                                            className="link link-primary text-xs font-medium"
                                         >
                                             {t('Edit')}
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => destroy(goal)}
-                                            className="text-xs text-rose-500 hover:underline"
+                                            className="link link-error text-xs"
                                         >
                                             {t('Delete')}
                                         </button>
@@ -180,13 +181,14 @@ export default function Index({ goals }) {
                                         }
                                     />
                                 </div>
+                                </div>
                             </div>
                         ))}
                     </div>
 
                     <Modal show={showForm} onClose={closeForm}>
                         <form onSubmit={submit} className="p-6">
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">
+                            <h3 className="mb-4 text-lg font-medium text-base-content">
                                 {editing ? t('Edit goal') : t('New goal')}
                             </h3>
 
@@ -210,7 +212,7 @@ export default function Index({ goals }) {
                                             id="period"
                                             value={data.period}
                                             onChange={(e) => setData('period', e.target.value)}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                                            className="select select-bordered mt-1 w-full"
                                         >
                                             {PERIOD_OPTIONS.map((p) => (
                                                 <option key={p} value={p}>{t(p)}</option>
@@ -223,7 +225,7 @@ export default function Index({ goals }) {
                                             id="period_basis"
                                             value={data.period_basis}
                                             onChange={(e) => setData('period_basis', e.target.value)}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                                            className="select select-bordered mt-1 w-full"
                                         >
                                             {BASIS_OPTIONS.map((b) => (
                                                 <option key={b} value={b}>{t(b)}</option>
@@ -252,7 +254,7 @@ export default function Index({ goals }) {
                                             id="unit"
                                             value={data.unit}
                                             onChange={(e) => setData('unit', e.target.value)}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                                            className="select select-bordered mt-1 w-full"
                                         >
                                             {UNIT_OPTIONS.map((u) => (
                                                 <option key={u} value={u}>{t(u)}</option>
@@ -267,7 +269,7 @@ export default function Index({ goals }) {
                                         id="metric_source"
                                         value={data.metric_source}
                                         onChange={(e) => setData('metric_source', e.target.value)}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                                        className="select select-bordered mt-1 w-full"
                                     >
                                         {METRIC_OPTIONS.map((m) => (
                                             <option key={m} value={m}>{t(m)}</option>
@@ -313,8 +315,7 @@ export default function Index({ goals }) {
                             </div>
                         </form>
                     </Modal>
-                </div>
-            </div>
+            </Container>
         </AuthenticatedLayout>
     );
 }
