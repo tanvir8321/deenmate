@@ -1,4 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -6,6 +7,7 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import useTranslation from '@/hooks/useTranslation';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 
 const CALC_METHODS = [
     ['karachi', 'University of Islamic Sciences, Karachi'],
@@ -36,6 +38,8 @@ const LOCALES = [
 
 export default function Index({ settings }) {
     const { t } = useTranslation();
+    const { subscription, supported, subscribe, unsubscribe, test } = usePushNotifications();
+    const [testing, setTesting] = useState(false);
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         timezone: settings.timezone ?? 'UTC',
         locale: settings.locale ?? 'en',
@@ -281,6 +285,55 @@ export default function Index({ settings }) {
                                     <InputError className="mt-2" message={errors.quiet_end} />
                                 </div>
                             </div>
+                        </section>
+
+                        <section className="space-y-4">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                {t('Push notifications')}
+                            </h3>
+                            {supported ? (
+                                <div className="space-y-3">
+                                    {subscription ? (
+                                        <>
+                                            <p className="text-sm text-green-600">
+                                                {t('Notifications enabled')}
+                                            </p>
+                                            <div className="flex gap-3">
+                                                <SecondaryButton
+                                                    type="button"
+                                                    onClick={async () => {
+                                                        setTesting(true);
+                                                        await test();
+                                                        setTesting(false);
+                                                    }}
+                                                    disabled={testing}
+                                                >
+                                                    {testing ? t('Sending') : t('Send test notification')}
+                                                </SecondaryButton>
+                                                <SecondaryButton
+                                                    type="button"
+                                                    onClick={unsubscribe}
+                                                >
+                                                    {t('Disable notifications')}
+                                                </SecondaryButton>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p className="text-sm text-gray-500">
+                                                {t('Enable push notifications to receive reminders.')}
+                                            </p>
+                                            <PrimaryButton type="button" onClick={subscribe}>
+                                                {t('Enable notifications')}
+                                            </PrimaryButton>
+                                        </>
+                                    )}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-gray-500">
+                                    {t('Push notifications not supported in this browser.')}
+                                </p>
+                            )}
                         </section>
 
                         <div className="flex items-center gap-4">

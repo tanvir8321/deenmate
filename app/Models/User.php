@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -82,5 +83,87 @@ class User extends Authenticatable implements MustVerifyEmail
     public function todoLists(): HasMany
     {
         return $this->hasMany(TodoList::class);
+    }
+
+    /**
+     * @return HasMany<PushSubscription, $this>
+     */
+    public function pushSubscriptions(): HasMany
+    {
+        return $this->hasMany(PushSubscription::class);
+    }
+
+    /**
+     * @return HasMany<HifzItem, $this>
+     */
+    public function hifzItems(): HasMany
+    {
+        return $this->hasMany(HifzItem::class);
+    }
+
+    /**
+     * @return HasMany<SalahLog, $this>
+     */
+    public function salahLogs(): HasMany
+    {
+        return $this->hasMany(SalahLog::class);
+    }
+
+    /**
+     * @return HasMany<DhikrSession, $this>
+     */
+    public function dhikrSessions(): HasMany
+    {
+        return $this->hasMany(DhikrSession::class);
+    }
+
+    /**
+     * @return HasMany<FastingLog, $this>
+     */
+    public function fastingLogs(): HasMany
+    {
+        return $this->hasMany(FastingLog::class);
+    }
+
+    /**
+     * @return HasMany<QadaCounter, $this>
+     */
+    public function qadaCounters(): HasMany
+    {
+        return $this->hasMany(QadaCounter::class);
+    }
+
+    /**
+     * @return HasMany<QuranProgress, $this>
+     */
+    public function quranProgress(): HasMany
+    {
+        return $this->hasMany(QuranProgress::class);
+    }
+
+    /**
+     * @return HasMany<Goal, $this>
+     */
+    public function goals(): HasMany
+    {
+        return $this->hasMany(Goal::class);
+    }
+
+    /**
+     * @return BelongsToMany<Circle, $this>
+     */
+    public function circles(): BelongsToMany
+    {
+        return $this->belongsToMany(Circle::class, 'circle_members')
+            ->withPivot('share_level')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return HasMany<CircleMember, $this>
+     */
+    public function circleMembers(): HasMany
+    {
+        return $this->hasMany(CircleMember::class);
     }
 }

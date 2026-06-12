@@ -1,6 +1,13 @@
 # DeenMate — Your Virtual Muslim Self
 
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/deenmate/deenmate)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
+[![PHP](https://img.shields.io/badge/php-8.3-777bb4)](https://php.net)
+[![Laravel](https://img.shields.io/badge/laravel-13-f9322c)](https://laravel.com)
+
 **Free, open-source (AGPL-3.0), donation-funded.** No paywalls. No ads. No trackers. No data selling — ever.
+
+> **Free forever, donation funded.** Every feature unlocked. No premium tier. Your worship data belongs to you.
 
 A web app that acts as a "virtual copy" of a practicing Muslim — generating daily checklists from recurring routines (Gregorian AND Hijri), anchoring reminders to prayer times, and tracking goals like Quran khatm, sunnah fasting, and sadaqah.
 
@@ -19,9 +26,13 @@ A web app that acts as a "virtual copy" of a practicing Muslim — generating da
 - **Reminders** — WebPush, nag mode, quiet hours, morning briefing
 - **PWA** — installable, offline-capable
 
+## Screenshots
+
+> Screenshots coming soon. Once the UI is finalized, this section will feature the dashboard, salah tracker, and routine builder.
+
 ## Stack
 
-- Laravel 13 (PHP 8.3), Inertia.js v2, React 19, Tailwind CSS v3, Vite, pnpm
+- Laravel 13 (PHP 8.3), Inertia.js v2, React 19, Tailwind CSS v4, Vite, pnpm
 - MySQL 8.0+, Redis 7 (cache + queues via Horizon)
 - Pest (tests), Laravel Pint (format), PHPStan level 6, ESLint + Prettier
 
@@ -83,7 +94,7 @@ See `docker/` for production Dockerfile (FrankenPHP/Octane), compose.yml, and Ca
 
 ## Contributing
 
-See `CONTRIBUTING.md`. Religious content changes require cited source + second reviewer. Conventional commits (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `content:`).
+See [CONTRIBUTING.md](CONTRIBUTING.md). Religious content changes require cited source + second reviewer. Conventional commits (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `content:`).
 
 ## License
 

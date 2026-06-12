@@ -126,4 +126,18 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Failed Job Notifications
+    |--------------------------------------------------------------------------
+    |
+    | Set QUEUE_FAILED_NOTIFY=true to send a notification when a job fails.
+    | Notifications go to the app admin email (MAIL_FROM_ADDRESS).
+    | Inspect failed jobs manually with `php artisan queue:failed`.
+    | Retry all failed jobs with `php artisan queue:retry all`.
+    |
+    */
+
+    'failed_notify' => env('QUEUE_FAILED_NOTIFY', true),
+
 ];

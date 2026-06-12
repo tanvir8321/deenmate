@@ -1,0 +1,81 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        APP_ENV: production
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - app_storage:/var/www/html/storage
+    networks:
+      - deenmate
+
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_DATABASE: ${DB_DATABASE:-deenmate}
+      MYSQL_USER: ${DB_USERNAME:-deenmate}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-root}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - deenmate
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - deenmate
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      DOMAIN: ${APP_DOMAIN:-localhost}
+    networks:
+      - deenmate
+
+volumes:
+  app_storage:
+  mysql_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  deenmate:
+    driver: bridge

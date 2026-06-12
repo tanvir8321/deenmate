@@ -39,6 +39,10 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => $locale,
             'translations' => fn () => $this->translations($locale),
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
         ];
     }
 
@@ -47,10 +51,22 @@ class HandleInertiaRequests extends Middleware
      */
     private function translations(string $locale): array
     {
+        $base = $this->loadLang('en');
+
         if ($locale === 'en') {
-            return [];
+            return $base;
         }
 
+        $overlay = $this->loadLang($locale);
+
+        return array_replace($base, $overlay);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function loadLang(string $locale): array
+    {
         $path = lang_path("{$locale}.json");
 
         if (! is_file($path)) {

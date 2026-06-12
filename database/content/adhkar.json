@@ -1,0 +1,170 @@
+[
+    {
+        "id": "morning_1",
+        "category": "morning",
+        "arabic": "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
+        "transliteration": "Allahumma bika asbahna, wa bika amsayna, wa bika nahya, wa bika namutu, wa ilaykan-nushur",
+        "translations": {
+            "en": "O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection.",
+            "bn": "হে আল্লাহ, তোমার নামে আমরা সকাল করি ও সন্ধ্যা করি, তোমার নামে আমরা বাঁচি ও মরি, এবং তোমার কাছেই পুনরুত্থান।"
+        },
+        "source": "Abu Dawud 5068",
+        "count": 1
+    },
+    {
+        "id": "morning_2",
+        "category": "morning",
+        "arabic": "اللَّهُمَّ أَنْتَ رَبِّي، لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي، وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي، فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+        "transliteration": "Allahumma anta rabbi la ilaha illa anta khalaqtani wa ana 'abduka wa ana 'ala 'ahdika wa wa'dika mastata'tu a'udhu bika min sharri ma sana'tu abu'u laka bi ni'matika 'alayya wa abu'u bi dhanbi faghfir li fa innahu la yaghfirudh-dhunuba illa anta",
+        "translations": {
+            "en": "O Allah, You are my Lord. There is no deity except You. You created me and I am Your servant. I abide by Your covenant and promise as best I can. I seek refuge in You from the evil I have done. I acknowledge Your favours upon me and I acknowledge my sin, so forgive me, for none forgives sins except You.",
+            "bn": "হে আল্লাহ, তুমি আমার প্রতিপালক, তুমি ছাড়া কোনো মাবুদ নেই। তুমি আমাকে সৃষ্টি করেছ এবং আমি তোমার বান্দা। আমি যথাসাধ্য তোমার প্রতিশ্রুতি ও অঙ্গীকারের উপর আছি। আমি আমার কৃতকর্মের অনিষ্ট থেকে তোমার কাছে আশ্রয় চাই। আমি তোমার দেওয়া নিয়ামত স্বীকার করছি এবং আমার গুনাহের কথাও স্বীকার করছি। তুমি আমাকে ক্ষমা কর, কারণ তুমি ছাড়া গুনাহ ক্ষমা করার কেউ নেই।"
+        },
+        "source": "Bukhari 6306",
+        "count": 1
+    },
+    {
+        "id": "morning_3",
+        "category": "morning",
+        "arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ",
+        "transliteration": "Subhanallahi wa bihamdihi 'adada khalqihi wa rida nafsihi wa zinata 'arshihi wa midada kalimatihi",
+        "translations": {
+            "en": "Glory be to Allah and praise be to Him, as many times as the number of His creation, in accordance with His good pleasure, equal to the weight of His Throne, and equal to the ink that may be used in recording His words.",
+            "bn": "আল্লাহ পবিত্র ও প্রশংসিত, তাঁর সৃষ্টির সংখ্যার সমান, তাঁর সন্তুষ্টির পরিমাণে, তাঁর আরশের ওজনের সমান এবং তাঁর বাণীসমূহ লেখার কালির সমান।"
+        },
+        "source": "Muslim 2726",
+        "count": 3
+    },
+    {
+        "id": "morning_4",
+        "category": "morning",
+        "arabic": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        "transliteration": "A'udhu bikalimatillahit-tammati min sharri ma khalaq",
+        "translations": {
+            "en": "I seek refuge in the perfect words of Allah from the evil of that which He has created.",
+            "bn": "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির অনিষ্ট থেকে আশ্রয় চাই।"
+        },
+        "source": "Muslim 2709",
+        "count": 3
+    },
+    {
+        "id": "morning_5",
+        "category": "morning",
+        "arabic": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ",
+        "transliteration": "Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa huwas-sami'ul-'alim",
+        "translations": {
+            "en": "In the name of Allah, with whose name nothing can harm on earth or in heaven, and He is the All-Hearing, the All-Knowing.",
+            "bn": "আল্লাহর নামে, যাঁর নামের সাথে আসমান ও যমীনের কোনো কিছুই ক্ষতি করতে পারে না। তিনি সর্বশ্রোতা, সর্বজ্ঞ।"
+        },
+        "source": "Abu Dawud 5088",
+        "count": 3
+    },
+    {
+        "id": "evening_1",
+        "category": "evening",
+        "arabic": "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
+        "transliteration": "Allahumma bika amsayna, wa bika asbahna, wa bika nahya, wa bika namutu, wa ilaykal-masir",
+        "translations": {
+            "en": "O Allah, by You we enter the evening and by You we enter the morning, by You we live and by You we die, and to You is the return.",
+            "bn": "হে আল্লাহ, তোমার নামে আমরা সন্ধ্যা করি ও সকাল করি, তোমার নামে আমরা বাঁচি ও মরি, এবং তোমার কাছেই ফিরে যাব।"
+        },
+        "source": "Abu Dawud 5068",
+        "count": 1
+    },
+    {
+        "id": "evening_2",
+        "category": "evening",
+        "arabic": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+        "transliteration": "Amsayna wa amsal-mulku lillah, walhamdu lillah, la ilaha illallahu wahdahu la sharika lah",
+        "translations": {
+            "en": "We have reached the evening and the evening belongs to Allah. All praise is for Allah. There is no deity except Allah, alone, without partner.",
+            "bn": "আমরা সন্ধ্যায় পৌঁছেছি এবং সন্ধ্যার রাজত্ব আল্লাহরই। সকল প্রশংসা আল্লাহর জন্য। আল্লাহ ছাড়া কোনো মাবুদ নেই, তিনি এক, তাঁর কোনো শরীক নেই।"
+        },
+        "source": "Muslim 2724",
+        "count": 1
+    },
+    {
+        "id": "evening_3",
+        "category": "evening",
+        "arabic": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        "transliteration": "A'udhu bikalimatillahit-tammati min sharri ma khalaq",
+        "translations": {
+            "en": "I seek refuge in the perfect words of Allah from the evil of that which He has created.",
+            "bn": "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির অনিষ্ট থেকে আশ্রয় চাই।"
+        },
+        "source": "Muslim 2709",
+        "count": 3
+    },
+    {
+        "id": "post_salah_1",
+        "category": "post_salah",
+        "arabic": "أَسْتَغْفِرُ اللَّهَ",
+        "transliteration": "Astaghfirullah",
+        "translations": {
+            "en": "I seek the forgiveness of Allah.",
+            "bn": "আমি আল্লাহর কাছে ক্ষমা চাই।"
+        },
+        "source": "Muslim 591",
+        "count": 3
+    },
+    {
+        "id": "post_salah_2",
+        "category": "post_salah",
+        "arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+        "transliteration": "Allahumma antas-salam wa minkas-salam tabarakta ya dhal-jalali wal-ikram",
+        "translations": {
+            "en": "O Allah, You are Peace and from You comes peace. Blessed are You, O Possessor of Majesty and Honour.",
+            "bn": "হে আল্লাহ, তুমিই শান্তি এবং তোমার থেকেই শান্তি। বরকতময় তুমি, হে মহিমা ও সম্মানের মালিক।"
+        },
+        "source": "Muslim 592",
+        "count": 1
+    },
+    {
+        "id": "post_salah_3",
+        "category": "post_salah",
+        "arabic": "سُبْحَانَ اللَّهِ",
+        "transliteration": "SubhanAllah",
+        "translations": {
+            "en": "Glory be to Allah.",
+            "bn": "আল্লাহ পবিত্র।"
+        },
+        "source": "Bukhari 6405",
+        "count": 33
+    },
+    {
+        "id": "post_salah_4",
+        "category": "post_salah",
+        "arabic": "الْحَمْدُ لِلَّهِ",
+        "transliteration": "Alhamdulillah",
+        "translations": {
+            "en": "All praise is for Allah.",
+            "bn": "সকল প্রশংসা আল্লাহর জন্য।"
+        },
+        "source": "Bukhari 6405",
+        "count": 33
+    },
+    {
+        "id": "post_salah_5",
+        "category": "post_salah",
+        "arabic": "اللَّهُ أَكْبَرُ",
+        "transliteration": "Allahu Akbar",
+        "translations": {
+            "en": "Allah is the Greatest.",
+            "bn": "আল্লাহ মহান।"
+        },
+        "source": "Bukhari 6405",
+        "count": 34
+    },
+    {
+        "id": "ayatal_kursi",
+        "category": "evening",
+        "arabic": "اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+        "transliteration": "Allahu la ilaha illa Huwal-Hayyul-Qayyum. La ta'khudhuhu sinatun wa la nawm. Lahu ma fis-samawati wa ma fil-ard. Man dhalladhi yashfa'u 'indahu illa bi-idhnih. Ya'lamu ma bayna aydihim wa ma khalfahum wa la yuhituna bi shay'im min 'ilmihi illa bima sha'. Wasi'a kursiyyuhus-samawati wal-ard. Wa la ya'uduhu hifdhuhuma wa Huwal-'Aliyyul-'Adhim.",
+        "translations": {
+            "en": "Allah! There is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.",
+            "bn": "আল্লাহ, তিনি ছাড়া কোনো মাবুদ নেই। তিনি চিরঞ্জীব, সবকিছুর ধারক। তাঁকে তন্দ্রা ও নিদ্রা স্পর্শ করতে পারে না। আসমান ও যমীনে যা কিছু আছে সবই তাঁর। কে আছে যে তাঁর অনুমতি ছাড়া তাঁর কাছে সুপারিশ করতে পারে? যা তাদের সামনে আছে এবং যা তাদের পিছনে আছে তা তিনি জানেন। তাঁর জ্ঞানের কোনো কিছুই তারা পরিবেষ্টন করতে পারে না শুধু যা তিনি চান তা ছাড়া। তাঁর কুরসি আসমান ও যমীন পরিব্যাপ্ত করে আছে এবং এগুলোর রক্ষণাবেক্ষণ তাঁকে ক্লান্ত করে না। তিনি সর্বোচ্চ, মহান।"
+        },
+        "source": "Quran 2:255",
+        "count": 1
+    }
+]

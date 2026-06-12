@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'DeenMate'),
 
+    'version' => '1.0.0',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
