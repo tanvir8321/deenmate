@@ -1,116 +1,101 @@
-<div align="center">
+# DeenMate — Your Virtual Muslim Self
 
-# 🕌 DeenMate
+**Free, open-source (AGPL-3.0), donation-funded.** No paywalls. No ads. No trackers. No data selling — ever.
 
-### Your virtual Muslim self — a free, open-source daily deen assistant
+A web app that acts as a "virtual copy" of a practicing Muslim — generating daily checklists from recurring routines (Gregorian AND Hijri), anchoring reminders to prayer times, and tracking goals like Quran khatm, sunnah fasting, and sadaqah.
 
-*It knows your routine. It builds your day. It reminds you at the right time — anchored to prayer times, aware of the Hijri calendar.*
+## Features
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
-[![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
-[![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
-[![Tests](https://github.com/OWNER/deenmate/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/deenmate/actions)
-[![Donate](https://img.shields.io/badge/Donate-Sadaqah_Jariyah-2ea44f)](#-support-the-project-sadaqah-jariyah)
+- **Salah tracking** — 5 daily prayers with jamaat/alone/qada/missed status, streaks
+- **Adhkar checklists** — Arabic + transliteration + translation, sourced citations
+- **Tasbih counter** — full-screen tap, haptics, presets (33/33/34, 100)
+- **Quran** — daily pages log, Khatm goal wizard, Hifz tracker with spaced repetition
+- **Fasting** — Mon/Thu, Ayyam al-Beedh, Ramadan mode, qada counter
+- **Zakat** — anniversary reminder + calculator
+- **Routines** — Gregorian AND Hijri recurrence, anchored to prayer times
+- **Goals** — daily/monthly/yearly, progress rings on dashboard
+- **Todos** — separate from routines, with lists, priorities, subtasks, due dates
+- **Reports & Export** — CSV/XLSX/PDF, date-range filters, queued for large exports
+- **Reminders** — WebPush, nag mode, quiet hours, morning briefing
+- **PWA** — installable, offline-capable
 
-**Free forever · No ads · No trackers · No data selling · Self-hostable**
+## Stack
 
-</div>
+- Laravel 13 (PHP 8.3), Inertia.js v2, React 19, Tailwind CSS v3, Vite, pnpm
+- MySQL 8.0+, Redis 7 (cache + queues via Horizon)
+- Pest (tests), Laravel Pint (format), PHPStan level 6, ESLint + Prettier
 
----
+## Quick Start
 
-## Why DeenMate?
-
-Todo apps don't know what Fajr is. Prayer apps don't manage your life. DeenMate is both: a personal assistant built around how a practicing Muslim's day actually works.
-
-- ⏰ **Prayer-anchored reminders** — "Morning adhkar at Fajr + 15 min", recalculated every day for your location. Not fixed clock times.
-- 🌙 **Hijri-aware recurrence** — Ayyam al-Beedh fasts (13–15th), Ramadan mode, your zakat anniversary: tasks that follow the Islamic calendar automatically.
-- 🔁 **Routines, not todos** — define a habit once (daily, weekly, monthly, yearly — Gregorian or Hijri); your checklist generates itself.
-- 🎯 **Goals** — Quran khatm in 60 days (daily quota computed for you), monthly sadaqah targets, yearly hifz plans, with streaks and progress rings.
-- ✅ **Todos too** — ad-hoc tasks with lists, priorities, due dates and subtasks live alongside your routine checklist; overdue items surface automatically.
-- 📊 **Reports & export** — weekly/monthly (Gregorian *and* Hijri) and yearly reports on your dashboard, with one-click CSV, Excel, and PDF export of all your data.
-- 📿 **Deen modules** — salah log with jamaat tracking, morning/evening adhkar (with cited sources), tasbih counter, Quran & hifz tracker with spaced repetition, fasting & qada counters, zakat reminder + calculator.
-- 🤝 **Accountability circles** — optional private groups with privacy-first sharing (streaks only by default).
-- 🌍 **Multilingual** — English, বাংলা, العربية (RTL), اردو, Türkçe, Bahasa Indonesia.
-- 📱 **PWA** — installable on your phone, push notifications, offline today-view.
-
-## Screenshots
-
-> _Coming with v1.0 — see [PLAN.md](PLAN.md) for the build roadmap._
-
-## Quick Start (development)
-
-**Requirements:** PHP 8.3+, Composer, MySQL 8.0+, Redis 7, Node 20+ with pnpm.
+### Local (no Docker)
 
 ```bash
-git clone https://github.com/OWNER/deenmate.git
+git clone https://github.com/deenmate/deenmate.git
 cd deenmate
-composer install && pnpm install
-cp .env.example .env && php artisan key:generate
-# configure DB_* (MySQL) and REDIS_* in .env
-php artisan migrate --seed        # seeds default routine packs + adhkar content
-php artisan webpush:vapid         # generate push notification keys
-composer dev                      # server + queue worker + vite, all at once
+composer install
+pnpm install
+cp .env.example .env          # edit DB_CONNECTION if no MySQL
+php artisan key:generate
+php artisan migrate
+php artisan serve              # Terminal 1 — http://localhost:8000
+pnpm run dev                   # Terminal 2 — Vite HMR
 ```
 
-Visit `http://localhost:8000`, register, and the onboarding flow will build your routine.
-
-## Self-Hosting (production)
-
-One command with Docker:
+### Docker
 
 ```bash
-cp .env.example .env   # set APP_URL, DB credentials, VAPID keys
-docker compose up -d
+docker compose -f docker/compose.yml up -d
 ```
 
-The compose stack includes the app (FrankenPHP/Octane), MySQL, Redis, and Caddy with automatic HTTPS. Full guide: [SELF_HOSTING.md](SELF_HOSTING.md).
+Visit `http://localhost:8000`. Register, land on dashboard.
 
-Prefer not to self-host? Use the free hosted instance — same code, same zero-tracking policy.
+## Development
 
-## Our Pledge
+```bash
+# Run all checks
+php artisan test               # Pest suite
+./vendor/bin/pint              # PHP formatting
+./vendor/bin/phpstan analyse   # Static analysis (level 6)
+pnpm lint && pnpm format        # JS/JSX linting
 
-1. **Free forever.** Every feature, for every user. Donations change nothing functionally.
-2. **No ads. No trackers. No data selling.** The code is public — audit it yourself.
-3. **Cited religious content.** Every dua and dhikr carries its source reference; corrections go through reviewed PRs.
-4. **Respecting fiqh diversity.** Calculation methods, Asr madhab, and Hijri offset are your settings, not our opinions. For rulings, consult your scholars.
+# Full dev stack (4 terminals)
+php artisan serve              # Laravel dev server
+php artisan queue:listen       # Queue worker
+php artisan pail               # Log viewer
+pnpm run dev                   # Vite HMR
+```
 
-## 💚 Support the Project (Sadaqah Jariyah)
+## Architecture
 
-DeenMate is built and run on donations. Every prayer logged, every dhikr counted, every fast this tool helps someone keep — supporters share in that ongoing reward, insha'Allah.
+- Controllers thin — business logic in `app/Actions/` and `app/Services/`
+- Dates UTC everywhere — user timezone applied at presentation only
+- Single sources of truth:
+  - `PrayerTimeService` — all prayer time calculation
+  - `HijriCalendarService` — all Hijri conversion
+  - `RecurrenceEngine` — all recurrence matching
+  - `TodayResolver` — builds daily checklist from routines
+- Religious content only in `database/content/` JSON (cited sources)
+- RTL works — test with `ar` locale
 
-- **GitHub Sponsors** — [github.com/sponsors/OWNER](https://github.com/sponsors/OWNER)
-- **Open Collective** — transparent public budget: [opencollective.com/deenmate](https://opencollective.com/deenmate)
-- **One-time donation** — Stripe link on our [Donate page](https://example.org/donate)
-- **Bangladesh** — bKash / Nagad details on the Donate page
+## Self-Hosting
 
-Hosting costs and spending are published openly on Open Collective.
+See `docker/` for production Dockerfile (FrankenPHP/Octane), compose.yml, and Caddyfile. One-command `docker compose up` on a clean VPS.
 
 ## Contributing
 
-All contributions are welcome — code, translations, documentation, and religious-content review.
-
-- Read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- 🌐 **Translations are the perfect first contribution** — see the `lang/` guide
-- 🕌 **Religious content corrections** require a cited source (book + reference) and pass a second review
-- 🐛 Bugs & ideas → [GitHub Issues](https://github.com/OWNER/deenmate/issues); look for `good first issue`
-- 🔒 Security issues → see [SECURITY.md](SECURITY.md) (please don't open public issues)
-
-Developers: start with [PLAN.md](PLAN.md) (architecture + roadmap) and [CLAUDE.md](CLAUDE.md) (code conventions — also used by AI coding agents).
-
-## Tech Stack
-
-Laravel 13 · Inertia.js v2 · React 19 · Tailwind CSS v4 · MySQL 8 · Redis + Horizon · Web Push (VAPID) · PWA · Pest · Docker (FrankenPHP)
+See `CONTRIBUTING.md`. Religious content changes require cited source + second reviewer. Conventional commits (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `content:`).
 
 ## License
 
-[AGPL-3.0](LICENSE) — free to use, study, modify, and self-host. If you run a modified version as a service, you must share your changes. This keeps DeenMate free for the ummah, forever.
+AGPL-3.0 — see `LICENSE`. For maximum permissiveness, MIT is the alternative.
 
----
+## Funding
 
-<div align="center">
+Sadaqah jariyah — every user's worship assisted by this tool carries ongoing reward for supporters.
 
-*"The most beloved of deeds to Allah are those that are most consistent, even if small."* — Sahih al-Bukhari 6464
+- GitHub Sponsors
+- Open Collective
+- Stripe one-time
+- bKash/Nagad (Bangladesh)
 
-Made with ❤️ for the ummah · Maintained by [TelliCode](https://tellicode.com)
-
-</div>
+See `.github/FUNDING.yml` for links.

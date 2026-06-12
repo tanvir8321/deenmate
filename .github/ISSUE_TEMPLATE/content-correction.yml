@@ -1,0 +1,34 @@
+---
+name: Content Correction
+about: Report an error in religious content (dua, adhkar, Quran)
+title: "[content] "
+labels: content-correction
+assignees: ''
+---
+
+**Content Type**
+What type of content needs correction?
+- [ ] Dua
+- [ ] Adhkar
+- [ ] Surah/Ayah
+- [ ] Translation
+- [ ] Transliteration
+- [ ] Other
+
+**Location**
+Where is this content located? (page, file, specific text)
+
+**Current Content**
+What is the current text?
+
+**Correction**
+What should it be?
+
+**Source Citation**
+Please provide the scholarly source for the correction:
+- Book name:
+- Reference number/page:
+- Scholar (if applicable):
+
+**Additional Context**
+Any other relevant information about this correction.

@@ -1,0 +1,13 @@
+github: [tellicode]
+open_collective: deenmate
+patreon: deenmate
+ko_fi: deenmate
+community_bridge: deenmate
+
+custom:
+  - label: "One-time Donation (Stripe)"
+    url: "https://donate.deenmate.org"
+  - label: "bKash (Bangladesh)"
+    url: "https://deenmate.org/bkash"
+  - label: "Nagad (Bangladesh)"
+    url: "https://deenmate.org/nagad"

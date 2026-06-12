@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-
+  "attribution": {},
   "permissions": {
     "allow": [
       "Read(**)",
@@ -8,13 +8,11 @@
       "Grep(**)",
       "Edit(**)",
       "Write(**)",
-
       "Bash(composer install*)",
       "Bash(composer require *)",
       "Bash(composer dump-autoload*)",
       "Bash(composer dev*)",
       "Bash(composer run *)",
-
       "Bash(php artisan make:*)",
       "Bash(php artisan migrate)",
       "Bash(php artisan migrate --*)",
@@ -30,11 +28,9 @@
       "Bash(php artisan webpush:*)",
       "Bash(php -v)",
       "Bash(php -l *)",
-
       "Bash(./vendor/bin/pint*)",
       "Bash(./vendor/bin/phpstan*)",
       "Bash(./vendor/bin/pest*)",
-
       "Bash(pnpm install*)",
       "Bash(pnpm add *)",
       "Bash(pnpm lint*)",
@@ -44,7 +40,6 @@
       "Bash(pnpm test*)",
       "Bash(npm run *)",
       "Bash(npx vite*)",
-
       "Bash(git status*)",
       "Bash(git diff*)",
       "Bash(git log*)",
@@ -56,7 +51,6 @@
       "Bash(git branch*)",
       "Bash(git stash*)",
       "Bash(git restore *)",
-
       "Bash(ls *)",
       "Bash(cat *)",
       "Bash(head *)",
@@ -69,20 +63,36 @@
       "Bash(touch *)",
       "Bash(wc *)",
       "Bash(jq *)",
-
       "Bash(docker compose up*)",
       "Bash(docker compose down)",
       "Bash(docker compose ps*)",
       "Bash(docker compose logs*)",
       "Bash(docker compose exec *)",
-
       "WebFetch(domain:laravel.com)",
       "WebFetch(domain:inertiajs.com)",
       "WebFetch(domain:react.dev)",
       "WebFetch(domain:tailwindcss.com)",
-      "WebFetch(domain:pestphp.com)"
+      "WebFetch(domain:pestphp.com)",
+      "Bash(curl -s \"https://api.aladhan.com/v1/timings/12-06-2026?latitude=23.8103&longitude=90.4125&method=1&school=1&timezonestring=Asia/Dhaka\")",
+      "Bash(curl -s \"https://api.aladhan.com/v1/timings/12-06-2026?latitude=51.5074&longitude=-0.1278&method=2&school=0&timezonestring=Europe/London\")",
+      "Bash(curl -s \"https://api.aladhan.com/v1/timings/12-06-2026?latitude=-6.2088&longitude=106.8456&method=3&school=0&timezonestring=Asia/Jakarta\")",
+      "Bash(curl -s \"https://api.aladhan.com/v1/timings/15-01-2026?latitude=23.8103&longitude=90.4125&method=1&school=1&timezonestring=Asia/Dhaka\")",
+      "Bash(curl -s \"https://api.aladhan.com/v1/timings/15-01-2026?latitude=51.5074&longitude=-0.1278&method=2&school=0&timezonestring=Europe/London\")",
+      "Bash(curl -s \"https://api.aladhan.com/v1/timings/15-01-2026?latitude=-6.2088&longitude=106.8456&method=3&school=0&timezonestring=Asia/Jakarta\")"
     ],
-
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard*)",
+      "Bash(chmod 777 *)",
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.production)",
+      "Edit(.env)",
+      "Edit(.env.production)"
+    ],
     "ask": [
       "Bash(git push*)",
       "Bash(git merge *)",
@@ -96,23 +106,8 @@
       "Bash(php artisan migrate:rollback*)",
       "Bash(php artisan db:wipe*)",
       "Bash(docker compose down -v*)"
-    ],
-
-    "deny": [
-      "Bash(rm -rf *)",
-      "Bash(sudo *)",
-      "Bash(git push --force*)",
-      "Bash(git push -f*)",
-      "Bash(git reset --hard*)",
-      "Bash(chmod 777 *)",
-      "Read(.env)",
-      "Read(.env.local)",
-      "Read(.env.production)",
-      "Edit(.env)",
-      "Edit(.env.production)"
     ]
   },
-
   "hooks": {
     "PostToolUse": [
       {
@@ -135,9 +130,5 @@
         ]
       }
     ]
-  },
-
-  "attribution": {
-    "commitMessage": ""
   }
 }
