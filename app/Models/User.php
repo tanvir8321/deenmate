@@ -51,4 +51,36 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(PrayerTimesCache::class, 'geohash', 'geohash');
     }
+
+    /**
+     * @return HasMany<Routine, $this>
+     */
+    public function routines(): HasMany
+    {
+        return $this->hasMany(Routine::class);
+    }
+
+    /**
+     * @return HasMany<TaskInstance, $this>
+     */
+    public function taskInstances(): HasMany
+    {
+        return $this->hasMany(TaskInstance::class);
+    }
+
+    /**
+     * @return HasMany<Todo, $this>
+     */
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }
+
+    /**
+     * @return HasMany<TodoList, $this>
+     */
+    public function todoLists(): HasMany
+    {
+        return $this->hasMany(TodoList::class);
+    }
 }

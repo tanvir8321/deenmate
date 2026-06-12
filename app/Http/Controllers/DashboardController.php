@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\HijriCalendarService;
 use App\Services\PrayerTimeService;
+use App\Services\TodayResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,6 +15,7 @@ class DashboardController extends Controller
     public function __construct(
         private readonly PrayerTimeService $prayerTimes,
         private readonly HijriCalendarService $hijri,
+        private readonly TodayResolver $today,
     ) {}
 
     public function index(Request $request): Response
@@ -38,6 +40,7 @@ class DashboardController extends Controller
             'hijriEvent' => $this->hijri->event($today, $user->hijri_offset),
             'gregorianDate' => $today->toDateString(),
             'hasLocation' => $prayerTimes !== null,
+            'day' => $this->today->for($user, $today),
         ]);
     }
 }

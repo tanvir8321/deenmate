@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\ValueObjects\HijriDate;
 use Carbon\CarbonImmutable;
 use IslamicNetwork\Calendar\Models\Date\Hijri;
 use IslamicNetwork\Calendar\Models\Mathematical\Calculator;
@@ -41,6 +42,18 @@ class HijriCalendarService
             'month' => (int) $result->month->number,
             'day' => (int) $result->day->number,
         ];
+    }
+
+    public function hijriDate(CarbonImmutable $date, int $offsetDays = 0): HijriDate
+    {
+        $h = $this->toHijriWithOffset($date, $offsetDays);
+
+        return new HijriDate(
+            year: $h['year'],
+            month: $h['month'],
+            day: $h['day'],
+            monthLength: $this->hijriMonthLength($h['year'], $h['month']),
+        );
     }
 
     public function toGregorian(int $year, int $month, int $day): CarbonImmutable
