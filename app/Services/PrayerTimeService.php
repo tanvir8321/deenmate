@@ -33,6 +33,46 @@ class PrayerTimeService
         'moonsighting' => ['fajr' => 18.0, 'isha' => 18.0],
     ];
 
+    /**
+     * Returns the next prayer (name + time) for the user given a reference
+     * instant. The reference defaults to the user's local "now" in their
+     * IANA timezone. After Isha, returns tomorrow's Fajr.
+     *
+     * @return array{name: string, at: CarbonImmutable}|null
+     */
+    public function next(User $user, ?CarbonImmutable $at = null): ?array
+    {
+        if ($user->lat === null || $user->lng === null) {
+            return null;
+        }
+
+        $reference = ($at ?? CarbonImmutable::now($user->timezone))->setTimezone($user->timezone);
+        $localDate = $reference->startOfDay();
+        $times = $this->calculate(
+            $user->lat,
+            $user->lng,
+            $user->timezone,
+            $localDate,
+            $user->calc_method,
+            $user->asr_method,
+            $user->high_lat_rule,
+        );
+
+        $order = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+
+        foreach ($order as $key) {
+            $candidate = $localDate->setTimeFromTimeString($times->{$key}->format('H:i'));
+            if ($candidate->greaterThan($reference)) {
+                return ['name' => $key, 'at' => $candidate];
+            }
+        }
+
+        return [
+            'name' => 'fajr',
+            'at' => $localDate->addDay()->setTimeFromTimeString($times->fajr->format('H:i')),
+        ];
+    }
+
     public function times(User $user, CarbonImmutable $date): PrayerTimes
     {
         if ($user->lat === null || $user->lng === null) {

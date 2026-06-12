@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\User;
 use App\Services\PrayerTimeService;
 use App\ValueObjects\PrayerTimes;
 use Carbon\CarbonImmutable;
@@ -153,5 +154,54 @@ class PrayerTimeServiceTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->service->calculate(0, 0, 'UTC', CarbonImmutable::parse('2026-06-12'), 'bogus');
+    }
+
+    public function test_next_returns_dhuhr_midday(): void
+    {
+        $user = new User([
+            'timezone' => 'Asia/Dhaka',
+            'lat' => 23.8103,
+            'lng' => 90.4125,
+            'geohash' => 'wh0r3q',
+            'calc_method' => 'karachi',
+            'asr_method' => 'hanafi',
+            'high_lat_rule' => 'none',
+        ]);
+
+        $at = CarbonImmutable::parse('2026-06-12 08:00', 'Asia/Dhaka');
+        $next = $this->service->next($user, $at);
+
+        $this->assertSame('dhuhr', $next['name']);
+        $this->assertTrue($next['at']->isAfter($at));
+    }
+
+    public function test_next_rolls_to_fajr_tomorrow_after_isha(): void
+    {
+        $user = new User([
+            'timezone' => 'Asia/Dhaka',
+            'lat' => 23.8103,
+            'lng' => 90.4125,
+            'geohash' => 'wh0r3q',
+            'calc_method' => 'karachi',
+            'asr_method' => 'hanafi',
+            'high_lat_rule' => 'none',
+        ]);
+
+        $at = CarbonImmutable::parse('2026-06-12 23:00', 'Asia/Dhaka');
+        $next = $this->service->next($user, $at);
+
+        $this->assertSame('fajr', $next['name']);
+        $this->assertTrue($next['at']->isAfter($at->endOfDay()));
+    }
+
+    public function test_next_returns_null_without_location(): void
+    {
+        $user = new User([
+            'timezone' => 'UTC',
+            'lat' => null,
+            'lng' => null,
+        ]);
+
+        $this->assertNull($this->service->next($user));
     }
 }

@@ -75,4 +75,37 @@ class DashboardTest extends TestCase
         $this->actingAs($user)->get('/dashboard')->assertOk();
         $this->assertSame(1, PrayerTimesCache::count());
     }
+
+    public function test_dashboard_with_location_includes_next_prayer(): void
+    {
+        $user = User::factory()->create([
+            'timezone' => 'Asia/Dhaka',
+            'lat' => 23.8103,
+            'lng' => 90.4125,
+            'geohash' => 'wh0r3q',
+            'calc_method' => 'karachi',
+            'asr_method' => 'hanafi',
+        ]);
+
+        $this->actingAs($user)->get('/dashboard')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Dashboard')
+                ->where('hasLocation', true)
+                ->has('nextPrayer.name')
+                ->has('nextPrayer.at')
+            );
+    }
+
+    public function test_dashboard_without_location_has_null_next_prayer(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->get('/dashboard')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Dashboard')
+                ->where('nextPrayer', null)
+            );
+    }
 }

@@ -73,6 +73,10 @@ class DashboardController extends Controller
             ->map(fn ($d) => Carbon::parse($d)->toDateString())
             ->all();
 
+        $nextPrayer = $prayerTimes !== null
+            ? $this->prayerTimes->next($user, $today)
+            : null;
+
         return Inertia::render('Dashboard', [
             'prayerTimes' => $prayerTimes,
             'hijriDate' => $hijriDate,
@@ -83,6 +87,12 @@ class DashboardController extends Controller
             'stats' => $statValues,
             'goals' => $goals->values(),
             'heatmapDates' => array_values($heatmapDates),
+            'nextPrayer' => $nextPrayer !== null
+                ? [
+                    'name' => $nextPrayer['name'],
+                    'at' => $nextPrayer['at']->toIso8601String(),
+                ]
+                : null,
         ]);
     }
 }
