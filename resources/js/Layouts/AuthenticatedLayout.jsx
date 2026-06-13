@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Sidebar from '@/Components/Sidebar';
 import MobileDrawer from '@/Components/MobileDrawer';
+import UserDropdown from '@/Components/UserDropdown';
 import useTranslation from '@/hooks/useTranslation';
 
 export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
     const { t, isRtl } = useTranslation();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -34,17 +34,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </Link>
                     </div>
                     <div className="flex-none">
-                        <Link
-                            href={route('profile.edit')}
-                            className="btn btn-ghost btn-sm"
-                            aria-label={t('Profile')}
-                        >
-                            <div className="avatar placeholder">
-                                <div className="w-7 rounded-full bg-primary text-primary-content">
-                                    <span className="text-xs font-bold">{user.name?.[0]?.toUpperCase() ?? 'U'}</span>
-                                </div>
-                            </div>
-                        </Link>
+                        <UserDropdown align="end" />
                     </div>
                 </div>
 
