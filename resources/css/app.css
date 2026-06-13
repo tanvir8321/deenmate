@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .font-display {
+        font-family: 'Reem Kufi Fun', serif;
+    }
+    .font-quran {
+        font-family: 'Amiri', serif;
+    }
+    .bg-arch {
+        -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 520'><path d='M40 520 V200 a160 160 0 0 1 320 0 V520 Z' fill='black'/></svg>");
+        mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 520'><path d='M40 520 V200 a160 160 0 0 1 320 0 V520 Z' fill='black'/></svg>");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+    }
+}

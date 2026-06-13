@@ -8,7 +8,9 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\FastingController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\HifzController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\PrivacyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\QuranController;
@@ -17,21 +19,17 @@ use App\Http\Controllers\RoutineController;
 use App\Http\Controllers\SalahController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TaskInstanceController;
+use App\Http\Controllers\TermsController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\ZakatController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', HomeController::class)->name('home');
+
+Route::get('/privacy', PrivacyController::class)->name('privacy.policy');
+Route::get('/terms', TermsController::class)->name('terms.ofuse');
 
 Route::get('/donate', [DonationController::class, 'index'])->name('donate');
 Route::post('/donate/webhook', [DonationController::class, 'webhook'])->name('donate.webhook');
